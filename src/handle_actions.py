@@ -1,11 +1,11 @@
 
 import os
-from helper import change_case, print_header
+from helper import change_case, print_header, write_pages
 
 from pages.action_page import ActionPage
 from pages.middleware_page import MiddlewarePage
 from pages.reducer_page import ReducerPage
-from pages.state_page import StatePage
+from pages.state_page import StatePageBuilder
 from pages.view_model_page import ViewModelPage
 
 
@@ -41,7 +41,7 @@ def new_redux_component():
     camel_case = change_case(component_name)
     camel_case = camel_case[0].upper() + camel_case[1:]
 
-    state_page = StatePage(camel_case, params).build_page()
+    state_page = StatePageBuilder(camel_case, params).build_page()
     vm_page = ViewModelPage(camel_case).build_page()
     reducer_page = ReducerPage(camel_case, params).build_page()
     middleware_page = MiddlewarePage(camel_case).build_page()
@@ -50,18 +50,11 @@ def new_redux_component():
     pages = [[state_page, "state"], [vm_page, 'vm'],
              [reducer_page, 'reducer'], [middleware_page, 'middleware'], [action_page, 'action']]
 
-    for page, post in pages:
-        path = "outputs"  # os.path.join('lib', 'redux', value[2])
-        os.makedirs(path, exist_ok=True)
-        file_path = os.path.join(path, f'{component_name}_{post}.dart')
-        with open(file_path, 'w') as f:
-            print(f"\nWriting {post} part.")
-            f.write(page)
+    write_pages(component_name, pages)
 
 
 def add_parameter_to_component():
     print_header("Adding new parameter")
-
 
     component_name = input("Insert the name of the component (snake_case): ")
     params = get_params_from_user()

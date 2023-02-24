@@ -1,7 +1,7 @@
 from params_helper import *
 
 
-class StatePage:
+class StatePageBuilder:
 
     def __init__(self, name, params) -> None:
         self.name = name + "State"
@@ -87,7 +87,59 @@ class StatePage:
         return res
 
 
+class StatePageAdder:
+
+    def __init__(self, parameter, file_path, class_name):
+        self.parameter = parameter
+        self.file_path = file_path
+        self.class_name = class_name
+
+    def add_parameter(self):
+        with open(self.file_path, "r") as f:
+            content = f.read()
+        lines = content.split("\n")
+        constructor_si, constructor_ei = self.find_constructor(lines)
+        return lines[constructor_si:constructor_ei]
+
+    def find_parameters_declaration(self, lines):
+        pass
+
+    def find_constructor(self, lines):
+        start_mask = f"\t{self.class_name}({{"
+        end_mask = "\t});"
+        start_id = [i for i, el in enumerate(lines) if start_mask in el][0]
+        end_id = [i for i, el in enumerate(
+            lines[start_id:]) if end_mask in el][0] + start_id
+        return (start_id + 1, end_id)
+
+    def find_copy_with(self, lines):
+        start_mask = f"\t{self.name} copyWith({{"
+        end_mask = "\t});"
+        start_id = [i for i, el in enumerate(lines) if start_mask in el][0]
+        end_id = [i for i, el in enumerate(
+            lines[start_id:]) if end_mask in el][0] + start_id
+        return (start_id + 1, end_id)
+
+    def find_initial(self, lines):
+        pass
+
+    def find_from_json(self, lines):
+        pass
+
+    def find_to_json(self, lines):
+        pass
+
+    def find_equals(self, lines):
+        pass
+
+    def find_hash_code(self, lines):
+        pass
+
+
 if __name__ == "__main__":
-    state = StatePage("Prova", [{'type': 'List<int>', 'name': 'param1', 'is_comp': False}, {
-                      'type': 'int', 'name': 'param2', 'is_comp': False}, {'type': "GuardiaPGListState", 'name': "guardie", 'is_comp': True}])
-    print(state.build_page())
+    # state = StatePageBuilder("Prova", [{'type': 'List<int>', 'name': 'param1', 'is_comp': False}, {
+    #     'type': 'int', 'name': 'param2', 'is_comp': False}, {'type': "GuardiaPGListState", 'name': "guardie", 'is_comp': True}])
+    # print(state.build_page())
+    adder = StatePageAdder(
+        {'type': "GuardiaPGListState", 'name': "guardie", 'is_comp': True}, "outputs/prova_state", "ProvaState")
+    print(adder.add_parameter())
