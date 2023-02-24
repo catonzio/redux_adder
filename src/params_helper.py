@@ -23,8 +23,8 @@ def get_param_initial(param):
         elif param['type'] == "DateTime":
             initialization = "DateTime.now()"
         elif 'List' in param['type']:
-            new_type = param['type'].replace(
-                "List", "").replace("<", "").replace(">", "")
+            new_type = param['type'][param['type'].index(
+                "<")+1:param['type'].index(">")]
             initialization = f"<{new_type}>[]"
     return param['name'] + f": {initialization},"
 

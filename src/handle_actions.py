@@ -1,4 +1,5 @@
 
+import json
 import os
 from helper import change_case, print_header, write_pages
 
@@ -28,15 +29,29 @@ def get_params_from_user():
                            'is_comp': is_other_component})
         except Exception:
             print("\nAn exception has occurred. try again.")
-
+    print(params)
     return params
 
+def get_params_from_json():
+    pass
 
-def new_redux_component():
+
+def new_redux_component(input_file=None):
     print_header("Creating new component")
+    
+    component_name = ""
+    params = ""
 
-    component_name = input("Insert the name of the component (snake_case): ")
-    params = get_params_from_user()
+    if input_file is None:
+        component_name = input("Insert the name of the component (snake_case): ")
+        params = get_params_from_user()
+    else:
+        file_content = ""
+        with open(input_file, 'r') as f:
+            file_content = json.loads(f.read())
+        component_name = file_content["name"]
+        params = file_content["params"]
+    print(file_content)
 
     camel_case = change_case(component_name)
     camel_case = camel_case[0].upper() + camel_case[1:]
