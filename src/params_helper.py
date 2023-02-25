@@ -6,14 +6,14 @@ def get_param_declaration(param):
 
 
 def get_param_constructor(param):
-    return "required this." + param['name'] + ","
+    return ("required " if not param['type'].endswith("?") else "") + "this." + param['name'] + ","
 
 
 def get_param_initial(param):
     initialization = ""
     if param['is_comp']:
         initialization = f"{param['type']}.initial()"
-    else:
+    elif not param['type'].endswith("?"):
         if param['type'] == 'int':
             initialization = "0"
         elif param['type'] == "String":
@@ -26,7 +26,8 @@ def get_param_initial(param):
             new_type = param['type'][param['type'].index(
                 "<")+1:param['type'].index(">")]
             initialization = f"<{new_type}>[]"
-    return param['name'] + f": {initialization},"
+
+    return param['name'] + f": {initialization}," if not param['type'].endswith("?") else ""
 
 
 def get_copy_with_arg(param):
@@ -38,19 +39,24 @@ def get_copy_with_body(param):
 
 
 def get_param_from_json(param):
-    return param['name'] + ": json.decode(json['" + param['name'] + "']),"
+    return param['name'] + ": json.decode(json['" + param['name'] + "'])," if "function" not in param['type'].lower() else ""
 
 
 def get_param_to_json(param):
-    return "'" + param['name'] + "': json.encode(" + param['name'] + "),"
+    return "'" + param['name'] + "': json.encode(" + param['name'] + ")," if "function" not in param['type'].lower() else ""
 
 
 def get_param_equals(param):
-    return param['name'] + " == other." + param['name']
+    return param['name'] + " == other." + param['name'] if "function" not in param['type'].lower() else ""
 
 
 def get_param_hash_code(param):
-    return param['name'] + ".hashCode"
+    return param['name'] + ".hashCode" if "function" not in param['type'].lower() else ""
+
+
+def get_param_function_vm(param, action_name):
+    return f"""{param['name']}: ({param['type']} value) =>
+          store.dispatch({action_name}(value)),"""
 
 
 def get_param_reducer_declaration(param, state_name):

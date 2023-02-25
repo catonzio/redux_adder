@@ -32,32 +32,23 @@ def get_params_from_user():
     print(params)
     return params
 
-def get_params_from_json():
-    pass
 
-
-def new_redux_component(input_file=None):
-    print_header("Creating new component")
-    
-    component_name = ""
-    params = ""
-
-    if input_file is None:
-        component_name = input("Insert the name of the component (snake_case): ")
-        params = get_params_from_user()
-    else:
-        file_content = ""
-        with open(input_file, 'r') as f:
-            file_content = json.loads(f.read())
-        component_name = file_content["name"]
-        params = file_content["params"]
+def get_name_params_from_json(input_file):
+    file_content = ""
+    with open(input_file, 'r') as f:
+        file_content = json.loads(f.read())
+    component_name = file_content["name"]
+    params = file_content["params"]
     print(file_content)
+    return component_name, params
 
+
+def write_redux_component(component_name, params):
     camel_case = change_case(component_name)
     camel_case = camel_case[0].upper() + camel_case[1:]
 
     state_page = StatePageBuilder(camel_case, params).build_page()
-    vm_page = ViewModelPage(camel_case).build_page()
+    vm_page = ViewModelPage(camel_case, params).build_page()
     reducer_page = ReducerPage(camel_case, params).build_page()
     middleware_page = MiddlewarePage(camel_case).build_page()
     action_page = ActionPage(camel_case, params).build_page()
@@ -68,14 +59,29 @@ def new_redux_component(input_file=None):
     write_pages(component_name, pages)
 
 
-def add_parameter_to_component():
-    print_header("Adding new parameter")
+def new_redux_component(input_file=None, input_directory=None):
+    print_header("Creating new component")
 
-    component_name = input("Insert the name of the component (snake_case): ")
-    params = get_params_from_user()
+    if input_file is None and input_directory is None:
+        component_name = input(
+            "Insert the name of the component (snake_case): ")
+        params = get_params_from_user()
+        write_redux_component(component_name, params)
 
-    camel_case = change_case(component_name)
-    camel_case = camel_case[0].upper() + camel_case[1:]
+    elif input_file is not None and input_directory is None:
+        component_name, params = get_name_params_from_json(input_file)
+        write_redux_component(component_name, params)
+
+    elif input_file is None and input_directory is not None:
+        files = [os.path.join(input_directory, f)
+                 for f in os.listdir(input_directory)]
+        names_params = [get_name_params_from_json(f) for f in files]
+        for component_name, params in names_params:
+            write_redux_component(component_name, params)
+
+
+def refresh_redux_component(file, directory):
+    print_header("Refreshing the component not yet implemented")
 
 
 def remove_parameter_from_component():

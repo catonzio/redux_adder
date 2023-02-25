@@ -4,7 +4,7 @@ from params_helper import build_action_declaration
 class ActionPage:
 
     def __init__(self, name, params) -> None:
-        self.state_name = name + "State"
+        self.state_name = name # + "State"
         self.params = params
 
     def build_page(self):

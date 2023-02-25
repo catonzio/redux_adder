@@ -1,5 +1,9 @@
 import os
 
+
+def indented_line(s, level=0):
+    return "\n" + "\t"*level + s
+
 def camel_to_snake(str):
     return ''.join(['_'+i.lower() if i.isupper()
                     else i for i in str]).lstrip('_')
@@ -19,8 +23,12 @@ def get_snake_action_name(action_name):
 
 
 def get_action_from_name(name, state_name):
-    capital_name = name[0].upper() + name[1:]
+    capital_name = capitalize(name)
     return f"Update{state_name}{capital_name}Action"
+
+
+def capitalize(s):
+    return s[0].upper() + s[1:]
 
 
 def print_header(inp, size=50):
@@ -30,12 +38,14 @@ def print_header(inp, size=50):
 
 
 def write_pages(component_name, pages):
+    print_header(component_name)
     for page, post in pages:
-        path = "outputs"  # os.path.join('lib', 'redux', value[2])
+        # os.path.join('lib', 'redux', value[2])
+        path = os.path.join("outputs", component_name)
         os.makedirs(path, exist_ok=True)
         file_path = os.path.join(path, f'{component_name}_{post}')
         with open(file_path, 'w') as f:
-            print(f"\nWriting {post} part.")
+            print(f"Writing {post} in {file_path}")
             f.write(page)
 
 

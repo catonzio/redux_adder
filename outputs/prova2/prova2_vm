@@ -1,0 +1,58 @@
+import 'json';
+import 'package:openeyed/redux/states/app_state.dart';
+import 'package:redux/redux.dart';
+
+class Prova2ViewModel {
+
+	final Prova2State state;
+	final Function(int)? updateParam1;
+	final Function(bool)? updateParam2;
+
+	static Prova2ViewModel fromStore(Store<AppState> store) {
+		return Prova2ViewModel(
+			state: store.state.pagesState.prova2State
+		);
+	}
+
+	Prova2ViewModel({
+		required this.state,
+		this.updateParam1,
+		this.updateParam2,
+	});
+
+	factory Prova2ViewModel.initial() {
+		return Prova2ViewModel(
+			
+			
+			
+		);
+	}
+
+	factory Prova2ViewModel.fromJson(Map<String, dynamic> json) {
+		return Prova2ViewModel(
+			state: json.decode(json['state']),
+			updateParam1: json.decode(json['updateParam1']),
+			updateParam2: json.decode(json['updateParam2']),
+		);
+	}
+
+	Map<String, dynamic> toJson() => {
+		'state': json.encode(state),
+		'updateParam1': json.encode(updateParam1),
+		'updateParam2': json.encode(updateParam2),
+	};
+
+	@override
+	bool operator ==(Object other) => 
+		identical(this, other) || 
+		other is Prova2ViewModel && 
+		state == other.state &&
+		updateParam1 == other.updateParam1 &&
+		updateParam2 == other.updateParam2;
+
+	@override
+	int get hashCode => super.hashCode ^ 
+		state.hashCode ^
+		updateParam1.hashCode ^
+		updateParam2.hashCode;
+}

@@ -5,15 +5,24 @@ import 'package:redux/redux.dart';
 class ProvaViewModel {
 
 	final ProvaState state;
+	final Function(int)? updateParam1;
+	final Function(bool)? updateParam2;
 
 	static ProvaViewModel fromStore(Store<AppState> store) {
 		return ProvaViewModel(
-			state: store.state.pagesState.provaState
+			state: store.state.pagesState.provaState,
+			
+			updateParam1: (int value) =>
+          store.dispatch(UpdateProvaParam1Action(value)),
+			updateParam2: (bool value) =>
+          store.dispatch(UpdateProvaParam2Action(value)),
 		);
 	}
 
 	ProvaViewModel({
 		required this.state,
+		this.updateParam1,
+		this.updateParam2,
 	});
 
 	factory ProvaViewModel.initial() {
