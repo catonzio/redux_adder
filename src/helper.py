@@ -1,8 +1,11 @@
 import os
 
+BASE_DIR = "outputs/redux"
+
 
 def indented_line(s, level=0):
     return "\n" + "\t"*level + s
+
 
 def camel_to_snake(str):
     return ''.join(['_'+i.lower() if i.isupper()
@@ -31,17 +34,21 @@ def capitalize(s):
     return s[0].upper() + s[1:]
 
 
+def uncapitalize(s):
+    return s[0].lower() + s[1:]
+
+
 def print_header(inp, size=50):
     print("\n#" + '-' * size + "#")
     spacing = int(((size+2)/2 - len(inp)/2))
     print(" " * spacing + inp + "\n")
 
 
-def write_pages(component_name, pages):
+def write_pages(component_name, pages, dir=BASE_DIR):
     print_header(component_name)
     for page, post in pages:
         # os.path.join('lib', 'redux', value[2])
-        path = os.path.join("outputs", component_name)
+        path = os.path.join(dir, component_name)
         os.makedirs(path, exist_ok=True)
         file_path = os.path.join(path, f'{component_name}_{post}')
         with open(file_path, 'w') as f:

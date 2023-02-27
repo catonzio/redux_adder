@@ -1,10 +1,11 @@
 from params_helper import *
+from helper import capitalize
 
 
 class StatePageBuilder:
 
     def __init__(self, name, params) -> None:
-        self.name = name + "State"
+        self.name = capitalize(name) + "State"
         self.params = params
         self.path = "states"
 

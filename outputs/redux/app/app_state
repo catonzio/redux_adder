@@ -1,0 +1,42 @@
+class AppState {
+
+	final Prova2State prova2State;
+
+	AppState({
+		required this.prova2State,
+	});
+
+	AppState copyWith({
+		Prova2State? prova2State,
+	}) {
+		return AppState(
+			prova2State: prova2State ?? this.prova2State,
+		);
+	}
+
+	factory AppState.initial() {
+		return AppState(
+			prova2State: Prova2State.initial(),
+		);
+	}
+
+	factory AppState.fromJson(Map<String, dynamic> json) {
+		return AppState(
+			prova2State: Prova2State.fromJson(json['prova2State']),
+		);
+	}
+
+	Map<String, dynamic> toJson() => {
+		'prova2State': prova2State.toJson(),
+	};
+
+	@override
+	bool operator ==(Object other) => 
+		identical(this, other) || 
+		other is AppState && 
+		prova2State == other.prova2State;
+
+	@override
+	int get hashCode => super.hashCode ^ 
+		prova2State.hashCode;
+}

@@ -1,11 +1,12 @@
 from params_helper import get_param_reducer_declaration, get_param_reducer_implementation
+from helper import capitalize, uncapitalize
 
 
 class ReducerPage:
 
     def __init__(self, name, params) -> None:
-        self.name = name[0].lower() + name[1:] + "Reducer"
-        self.state_name = name + "State"
+        self.name = uncapitalize(name) + "Reducer"
+        self.state_name = capitalize(name) + "State"
         self.params = params
 
     def build_page(self):
@@ -23,7 +24,7 @@ class ReducerPage:
     def build_implementation(self):
         res = "\n\n"
         res += "\n\n".join([get_param_reducer_implementation(
-            row, self.state_name) for row in self.params])
+            row, self.state_name) for row in self.params if not row['is_comp']])
         res += "\n"
         return res
 

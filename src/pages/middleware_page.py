@@ -1,3 +1,6 @@
+from helper import indented_line
+
+
 class MiddlewarePage:
 
     def __init__(self, name) -> None:
@@ -5,11 +8,12 @@ class MiddlewarePage:
 
     def build_page(self):
         res = "import 'package:redux/redux.dart';\n"
-        res += "import 'package:openeyed/redux/states/app_state.dart';\n\n"
-        res += f"Middleware<AppState> {self.name}() °\n\t"
-        res += "return (Store<AppState> store, dynamic action, NextDispatcher next) async °\n\t\t"
-        res += "next(action);"
-        res += "\n\t#;"
+        res += "import '../app/app_state.dart';\n\n"
+        res += f"Middleware<AppState> {self.name}() °"
+        res += indented_line(
+            "return (Store<AppState> store, dynamic action, NextDispatcher next) async °", 1)
+        res += indented_line("next(action);", 2)
+        res += indented_line("#;", 1)
         res += "\n#"
         return res.replace('°', '{').replace('#', '}')
 

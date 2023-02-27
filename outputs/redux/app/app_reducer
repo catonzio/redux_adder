@@ -1,0 +1,6 @@
+final appReducer = combineReducers<AppState>([
+	(state, action) =>
+		prova2Reducer(state, action),
+]);
+
+

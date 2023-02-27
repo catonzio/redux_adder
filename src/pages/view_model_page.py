@@ -16,7 +16,7 @@ class ViewModelPage:
         self.path = "view_models"
 
     def build_page(self):
-        res = "import 'json';\nimport 'package:'../app/app_state.dart';\nimport 'package:redux/redux.dart';\n\n"
+        res = "import 'json';\nimport '../app/app_state.dart';\nimport 'package:redux/redux.dart';\n\n"
         res += f"class {self.name} °\n"
         res += self.build_params_declaration()
         res += self.build_from_store()

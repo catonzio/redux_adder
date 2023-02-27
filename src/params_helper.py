@@ -1,4 +1,5 @@
 from helper import get_action_from_name, get_snake_action_name
+from helper import indented_line, uncapitalize
 
 
 def get_param_declaration(param):
@@ -39,11 +40,23 @@ def get_copy_with_body(param):
 
 
 def get_param_from_json(param):
-    return param['name'] + ": json.decode(json['" + param['name'] + "'])," if "function" not in param['type'].lower() else ""
+    if "function" in param['type'].lower():
+        return ""
+    else:
+        if param["is_comp"]:
+            return f"{param['name']}: {param['type']}.fromJson(json['" + param['name'] + "']),"
+        else:
+            return f"{param['name']}: json.decode(json['" + param['name'] + "']),"
 
 
 def get_param_to_json(param):
-    return "'" + param['name'] + "': json.encode(" + param['name'] + ")," if "function" not in param['type'].lower() else ""
+    if "function" in param['type'].lower():
+        return ""
+    else:
+        if param['is_comp']:
+            return f"'{param['name']}': {param['name']}.toJson(),"
+        else:
+            return f"'{param['name']}': json.encode({param['name']}),"
 
 
 def get_param_equals(param):
@@ -60,9 +73,15 @@ def get_param_function_vm(param, action_name):
 
 
 def get_param_reducer_declaration(param, state_name):
-    action_name = get_action_from_name(param['name'], state_name)
-    snake_action_name = get_snake_action_name(action_name)
-    return f"TypedReducer<{state_name}, {action_name}>({snake_action_name}),"
+    if param["is_comp"]:
+        res = "(state, action) =>"
+        res += indented_line(
+            f"{uncapitalize(param['name'].replace('State', ''))}Reducer(state, action),", 2)
+        return res
+    else:
+        action_name = get_action_from_name(param['name'], state_name)
+        snake_action_name = get_snake_action_name(action_name)
+        return f"TypedReducer<{state_name}, {action_name}>({snake_action_name}),"
 
 
 def get_param_reducer_implementation(param, state_name):
