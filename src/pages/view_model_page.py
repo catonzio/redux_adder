@@ -8,9 +8,9 @@ class ViewModelPage:
         self.name = name + "ViewModel"
         self.state_name = name + "State"
         self.action_names = [get_action_from_name(
-            param['name'], self.state_name).replace("State", "") for param in params]
+            param['name'], self.state_name).replace("State", "") for param in params if not param['is_comp']]
         self.function_names = [
-            {'type': param['type'], 'name': f"update{capitalize(param['name'])}", "is_comp": False} for param in params]
+            {'type': param['type'], 'name': f"update{capitalize(param['name'])}", "is_comp": False} for param in params if not param['is_comp']]
         self.params = [{'type': self.state_name,
                         'name': 'state', 'is_comp': True}] + [{'type': f'Function({param["type"]})?', 'name': param['name'], 'is_comp': False} for param in self.function_names]
         self.path = "view_models"

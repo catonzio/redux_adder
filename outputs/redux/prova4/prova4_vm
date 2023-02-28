@@ -1,0 +1,53 @@
+import 'json';
+import '../app/app_state.dart';
+import 'package:redux/redux.dart';
+
+class Prova4ViewModel {
+
+	final Prova4State state;
+	final Function(int)? updateParam1;
+	final Function(bool)? updateParam2;
+
+	static Prova4ViewModel fromStore(Store<AppState> store) {
+		return Prova4ViewModel(
+			state: store.state.pagesState.prova4State,
+			
+			updateParam1: (int value) =>
+          store.dispatch(UpdateProva4Param1Action(value)),
+			updateParam2: (bool value) =>
+          store.dispatch(UpdateProva4Param2Action(value)),
+		);
+	}
+
+	Prova4ViewModel({
+		required this.state,
+		this.updateParam1,
+		this.updateParam2,
+	});
+
+	factory Prova4ViewModel.initial() {
+		return Prova4ViewModel(
+			state: Prova4State.initial(),
+		);
+	}
+
+	factory Prova4ViewModel.fromJson(Map<String, dynamic> json) {
+		return Prova4ViewModel(
+			state: Prova4State.fromJson(json['state']),
+		);
+	}
+
+	Map<String, dynamic> toJson() => {
+		'state': state.toJson(),
+	};
+
+	@override
+	bool operator ==(Object other) => 
+		identical(this, other) || 
+		other is Prova4ViewModel && 
+		state == other.state;
+
+	@override
+	int get hashCode => super.hashCode ^ 
+		state.hashCode;
+}

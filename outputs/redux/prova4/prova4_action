@@ -1,0 +1,11 @@
+class UpdateProva4Param1Action {
+	final int value;
+
+	UpdateProva4Param1Action({required this.value});
+}
+
+class UpdateProva4Param2Action {
+	final bool value;
+
+	UpdateProva4Param2Action({required this.value});
+}

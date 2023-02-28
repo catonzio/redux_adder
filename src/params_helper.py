@@ -79,9 +79,18 @@ def get_param_reducer_declaration(param, state_name):
             f"{uncapitalize(param['name'].replace('State', ''))}Reducer(state, action),", 2)
         return res
     else:
-        action_name = get_action_from_name(param['name'], state_name)
+        action_name = get_action_from_name(
+            param['name'].replace("State", ""), state_name)
         snake_action_name = get_snake_action_name(action_name)
         return f"TypedReducer<{state_name}, {action_name}>({snake_action_name}),"
+
+
+def get_components_reducer_declaration(params, state_name):
+    res = indented_line(f"(state, action) => {state_name}(", 1)
+    res += "".join(indented_line(
+        f"{param['name']}: {uncapitalize(param['name'].replace('State', ''))}Reducer(state.{param['name']}, action),", 2) for param in params)
+    res += indented_line(")", 1)
+    return res
 
 
 def get_param_reducer_implementation(param, state_name):

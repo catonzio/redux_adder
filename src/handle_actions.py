@@ -9,6 +9,7 @@ from pages.reducer_page import ReducerPage
 from pages.state_page import StatePageBuilder
 from pages.view_model_page import ViewModelPage
 from pages.widget_page import WidgetPage
+from helper import get_folder_components, indented_line
 
 
 def get_params_from_user():
@@ -40,7 +41,6 @@ def get_name_params_from_json(input_file):
         file_content = json.loads(f.read())
     component_name = file_content["name"]
     params = file_content["params"]
-    print(file_content)
     return component_name, params
 
 
@@ -80,6 +80,9 @@ def new_redux_component(input_file=None, input_directory=None):
         names_params = [get_name_params_from_json(f) for f in files]
         for component_name, params in names_params:
             write_redux_component(component_name, params)
+    params = get_folder_components()
+    make_app_component(params=params)
+    create_store_page(params=params)
 
 
 def refresh_redux_component(file, directory):
@@ -88,15 +91,38 @@ def refresh_redux_component(file, directory):
 
 def init_project():
     os.makedirs(BASE_DIR, exist_ok=True)
-    make_app_component()
+    params = get_folder_components()
+    make_app_component(params)
+    create_store_page(params)
 
 
-def make_app_component():
-    params = [{"type": capitalize(f) + "State", "name": f + "State", "is_comp": True}
-              for f in os.listdir(BASE_DIR) if os.path.isdir(os.path.join(BASE_DIR, f)) and f != "app"]
+def make_app_component(params=None):
+    params = params if params is not None else get_folder_components()
     page = StatePageBuilder("app", params).build_page()
-    reducer = ReducerPage("app", params).build_page()
+    reducer = ReducerPage("app", params).build_app_page()
     write_pages("app", [[page, "state"], [reducer, "reducer"]])
+
+
+def create_store_page(params=None):
+    params = params if params is not None else get_folder_components()
+    res = "\n".join(
+        [f"import '{param['name'].replace('State', '')}/{param['name'].replace('State', '')}_middleware.dart';" for param in params])
+    res += indented_line("import 'app/app_state.dart';")
+    res += indented_line("import 'app/app_reducer.dart';")
+    res += indented_line("\nStore<AppState> createStore() °")
+    res += indented_line("return Store(", 1)
+    res += indented_line("appReducer,", 2)
+    res += indented_line("initialState: AppState.initial(),", 2)
+    res += indented_line("distrinct: true,", 2)
+    res += indented_line("middleware: [", 2)
+    res += "".join([indented_line(
+        f"create{param['type'].replace('State', '')}Middleware(),", 3) for param in params])
+    res += indented_line("]", 2)
+    res += indented_line(");", 1)
+    res += indented_line("#")
+    res = res.replace('°', '{').replace('#', '}')
+    with open(os.path.join(BASE_DIR, "store"), "w") as f:
+        f.write(res)
 
 
 if __name__ == "__main__":

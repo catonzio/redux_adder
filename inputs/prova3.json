@@ -1,0 +1,20 @@
+{
+    "name": "prova3",
+    "params": [
+        {
+            "type": "int",
+            "name": "param1",
+            "is_comp": false
+        },
+        {
+            "type": "bool",
+            "name": "param2",
+            "is_comp": false
+        },
+        {
+            "type": "List<int>",
+            "name": "list",
+            "is_comp": false
+        }
+    ]
+}

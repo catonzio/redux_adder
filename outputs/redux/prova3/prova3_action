@@ -1,0 +1,17 @@
+class UpdateProva3Param1Action {
+	final int value;
+
+	UpdateProva3Param1Action({required this.value});
+}
+
+class UpdateProva3Param2Action {
+	final bool value;
+
+	UpdateProva3Param2Action({required this.value});
+}
+
+class UpdateProva3ListAction {
+	final List<int> value;
+
+	UpdateProva3ListAction({required this.value});
+}

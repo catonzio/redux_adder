@@ -1,0 +1,18 @@
+final provaReducer = combineReducers<ProvaState>([
+	TypedReducer<ProvaState, UpdateProvaStateParam1Action>(_updateProvaStateParam1Action),
+	TypedReducer<ProvaState, UpdateProvaStateParam2Action>(_updateProvaStateParam2Action),
+	(state, action) => ProvaState(
+	)
+]);
+
+ProvaState _updateProvaStateParam1Action(ProvaState state, UpdateProvaStateParam1Action action) {
+	return state.copyWith(
+		param1: action.value
+	);
+}
+
+ProvaState _updateProvaStateParam2Action(ProvaState state, UpdateProvaStateParam2Action action) {
+	return state.copyWith(
+		param2: action.value
+	);
+}

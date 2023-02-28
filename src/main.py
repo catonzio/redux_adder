@@ -13,8 +13,9 @@ def main(args):
 
 
 def handle_arguments():
+    default_args = ['new', "-d", "inputs"]
     # default_args = ['new', "-f", "inputs/prova2.json"]
-    default_args = ["init"]
+    # default_args = ["init"]
 
     parser = argparse.ArgumentParser(
         description="Project for modifying or adding redux components in flutter.")

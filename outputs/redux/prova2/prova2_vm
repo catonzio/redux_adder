@@ -33,12 +33,12 @@ class Prova2ViewModel {
 
 	factory Prova2ViewModel.fromJson(Map<String, dynamic> json) {
 		return Prova2ViewModel(
-			state: json.decode(json['state']),
+			state: Prova2State.fromJson(json['state']),
 		);
 	}
 
 	Map<String, dynamic> toJson() => {
-		'state': json.encode(state),
+		'state': state.toJson(),
 	};
 
 	@override

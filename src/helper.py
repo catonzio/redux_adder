@@ -56,6 +56,11 @@ def write_pages(component_name, pages, dir=BASE_DIR):
             f.write(page)
 
 
+def get_folder_components():
+    return [{"type": capitalize(f) + "State", "name": f + "State", "is_comp": True}
+            for f in os.listdir(BASE_DIR) if os.path.isdir(os.path.join(BASE_DIR, f)) and f != "app"]
+
+
 if __name__ == "__main__":
     pass
     # print_header("Creatingaaaaaaaaaaaaaaa")

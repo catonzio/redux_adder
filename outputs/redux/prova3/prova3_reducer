@@ -1,0 +1,25 @@
+final prova3Reducer = combineReducers<Prova3State>([
+	TypedReducer<Prova3State, UpdateProva3StateParam1Action>(_updateProva3StateParam1Action),
+	TypedReducer<Prova3State, UpdateProva3StateParam2Action>(_updateProva3StateParam2Action),
+	TypedReducer<Prova3State, UpdateProva3StateListAction>(_updateProva3StateListAction),
+	(state, action) => Prova3State(
+	)
+]);
+
+Prova3State _updateProva3StateParam1Action(Prova3State state, UpdateProva3StateParam1Action action) {
+	return state.copyWith(
+		param1: action.value
+	);
+}
+
+Prova3State _updateProva3StateParam2Action(Prova3State state, UpdateProva3StateParam2Action action) {
+	return state.copyWith(
+		param2: action.value
+	);
+}
+
+Prova3State _updateProva3StateListAction(Prova3State state, UpdateProva3StateListAction action) {
+	return state.copyWith(
+		list: action.value
+	);
+}

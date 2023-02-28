@@ -9,7 +9,7 @@ class ActionPage:
 
     def build_page(self):
         res = "\n\n".join([build_action_declaration(row, self.state_name)
-                          for row in self.params])
+                          for row in self.params if not row['is_comp']])
         return res.replace('°', '{').replace('#', '}')
 
 
