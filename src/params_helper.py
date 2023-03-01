@@ -46,7 +46,7 @@ def get_param_from_json(param):
         if param["is_comp"]:
             return f"{param['name']}: {param['type']}.fromJson(json['" + param['name'] + "']),"
         else:
-            return f"{param['name']}: json.decode(json['" + param['name'] + "']),"
+            return f"{param['name']}: jsonDecode(json['" + param['name'] + "']),"
 
 
 def get_param_to_json(param):
@@ -56,7 +56,7 @@ def get_param_to_json(param):
         if param['is_comp']:
             return f"'{param['name']}': {param['name']}.toJson(),"
         else:
-            return f"'{param['name']}': json.encode({param['name']}),"
+            return f"'{param['name']}': jsonEncode({param['name']}),"
 
 
 def get_param_equals(param):
@@ -69,7 +69,7 @@ def get_param_hash_code(param):
 
 def get_param_function_vm(param, action_name):
     return f"""{param['name']}: ({param['type']} value) =>
-          store.dispatch({action_name}(value)),"""
+          store.dispatch({action_name}(value: value)),"""
 
 
 def get_param_reducer_declaration(param, state_name):
@@ -80,12 +80,14 @@ def get_param_reducer_declaration(param, state_name):
         return res
     else:
         action_name = get_action_from_name(
-            param['name'].replace("State", ""), state_name)
+            param['name'], state_name.replace("State", ""))
         snake_action_name = get_snake_action_name(action_name)
         return f"TypedReducer<{state_name}, {action_name}>({snake_action_name}),"
 
 
 def get_components_reducer_declaration(params, state_name):
+    if not params:
+        return ""
     res = indented_line(f"(state, action) => {state_name}(", 1)
     res += "".join(indented_line(
         f"{param['name']}: {uncapitalize(param['name'].replace('State', ''))}Reducer(state.{param['name']}, action),", 2) for param in params)
@@ -94,7 +96,8 @@ def get_components_reducer_declaration(params, state_name):
 
 
 def get_param_reducer_implementation(param, state_name):
-    action_name = get_action_from_name(param['name'], state_name)
+    action_name = get_action_from_name(
+        param['name'], state_name.replace("State", ""))
     snake_action_name = get_snake_action_name(action_name)
     res = f"{state_name} {snake_action_name}({state_name} state, {action_name} action) °\n\t"
     res += f"return state.copyWith(\n\t\t"

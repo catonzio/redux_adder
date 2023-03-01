@@ -1,6 +1,8 @@
 import argparse
 import handle_actions as ha
 from pages.widget_page import WidgetPage
+from helper import update_base_dir
+import os
 
 
 def main(args):
@@ -15,7 +17,7 @@ def main(args):
 def handle_arguments():
     default_args = ['new', "-d", "inputs"]
     # default_args = ['new', "-f", "inputs/prova2.json"]
-    default_args = ["init"]
+    default_args = ["init", "libr"]
 
     parser = argparse.ArgumentParser(
         description="Project for modifying or adding redux components in flutter.")
@@ -27,11 +29,11 @@ def handle_arguments():
                         "new", "refresh", "init"], help="The action to perform")
     parser.add_argument(
         "dest", help="The path of the base folder used by the program", default="redux_adder")
-    # return parser.parse_args(default_args)
-    return parser.parse_args()
+    return parser.parse_args(default_args)
+    # return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = handle_arguments()
-    print(args)
+    update_base_dir(args.dest)
     main(args)

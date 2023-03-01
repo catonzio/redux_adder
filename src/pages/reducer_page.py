@@ -5,12 +5,17 @@ from helper import capitalize, uncapitalize, indented_line
 class ReducerPage:
 
     def __init__(self, name, params) -> None:
-        self.name = uncapitalize(name) + "Reducer"
+        self.name = uncapitalize(name)
+        self.reducer_name = uncapitalize(name) + "Reducer"
         self.state_name = capitalize(name) + "State"
         self.params = params
 
     def build_app_page(self):
-        res = f"final {self.name} = combineReducers<{self.state_name}>(["
+        params_names = [uncapitalize(
+            p["name"].replace("State", "")) for p in self.params]
+        res = f"import 'package:redux/redux.dart';\nimport '{self.name}_state.dart';\n"
+        res += "".join([f"import '../{pn}/{pn}_reducer.dart';" for pn in params_names])
+        res += f"\n\nfinal {self.reducer_name} = combineReducers<{self.state_name}>(["
         res += indented_line(
             f"(state, action) => {capitalize(self.state_name)}(", 1)
         res += "".join([indented_line(
@@ -20,16 +25,19 @@ class ReducerPage:
         return res.replace('°', '{').replace('#', '}')
 
     def build_page(self):
-        res = self.build_declaration()
+        res = f"import 'package:redux/redux.dart';\nimport '{self.name}_state.dart';\nimport '{self.name}_action.dart';\n\n"
+        res += self.build_declaration()
         res += self.build_implementation()
         return res.replace('°', '{').replace('#', '}')
 
     def build_declaration(self):
-        res = f"final {self.name} = combineReducers<{self.state_name}>([\n\t"
+        res = f"final {self.reducer_name} = combineReducers<{self.state_name}>([\n\t"
         res += "\n\t".join([get_param_reducer_declaration(row,
                            self.state_name) for row in self.params if not row['is_comp']])
         res += get_components_reducer_declaration(
-            [p for p in self.params if p['is_comp']], self.state_name)
+            [p for p in self.params if p['is_comp'] and not p['name'].lower() in self.name.lower()], self.state_name)
+        print([p for p in self.params if p['is_comp']
+              and not p['name'].lower() in self.name.lower()])
         res += "\n]);"
         return res
 

@@ -1,6 +1,13 @@
 import os
 
-BASE_DIR = r"outputs/redux"
+# base_dir = r"outputs/redux"
+base_dir = "lib/redux"
+
+
+def update_base_dir(path):
+    # global base_dir
+    # base_dir = os.path.join(path, "redux")
+    globals()['base_dir'] = os.path.join(path, "redux")
 
 
 def indented_line(s, level=0):
@@ -44,7 +51,7 @@ def print_header(inp, size=50):
     print(" " * spacing + inp + "\n")
 
 
-def write_pages(component_name, pages, dir=BASE_DIR):
+def write_pages(component_name, pages, dir=base_dir):
     print_header(component_name)
     for page, post in pages:
         # os.path.join('lib', 'redux', value[2])
@@ -52,13 +59,13 @@ def write_pages(component_name, pages, dir=BASE_DIR):
         os.makedirs(path, exist_ok=True)
         file_path = os.path.join(path, f'{component_name}_{post}.dart')
         with open(file_path, 'w') as f:
-            print(f"Writing {post} in {file_path}")
+            print(f"Writing {post} in {os.path.abspath(file_path)}")
             f.write(page)
 
 
 def get_folder_components():
     return [{"type": capitalize(f) + "State", "name": f + "State", "is_comp": True}
-            for f in os.listdir(BASE_DIR) if os.path.isdir(os.path.join(BASE_DIR, f)) and f != "app"]
+            for f in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, f)) and f != "app"]
 
 
 if __name__ == "__main__":

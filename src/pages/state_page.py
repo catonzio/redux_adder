@@ -10,7 +10,9 @@ class StatePageBuilder:
         self.path = "states"
 
     def build_page(self):
-        res = f"class {self.name} °\n"
+        res = "import 'dart:convert';"
+        res += "".join([indented_line(f"import '../{p['name'].replace('State', '')}/{p['name'].replace('State', '_state.dart')}';") for p in self.params if p["is_comp"]])
+        res += f"\n\nclass {self.name} °\n"
         res += self.build_params_declaration()
         res += self.build_constructor()
         res += self.build_copy_with()

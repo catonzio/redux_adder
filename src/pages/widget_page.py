@@ -9,14 +9,14 @@ class WidgetPage:
         self.view_model_name = self.name + "ViewModel"
 
     def build_page(self):
-        res = f"import '{self.name.lower()}_vm.dart';"
-        res += "\nimport '..\\app\\app_state.dart';"
+        res = f"import 'package:flutter/material.dart';\nimport 'package:flutter_redux/flutter_redux.dart';\nimport '{self.name.lower()}_vm.dart';"
+        res += "\nimport '../app/app_state.dart';"
         res += f"\n\nclass {self.page_name} extends StatelessWidget °\n"
         res += indented_line(
             f"static const String routeName = \"{self.page_name}\";\n", 1)
         res += indented_line(
             f"const {self.page_name}(°Key? key#) : super(key: key);\n", 1)
-        res += indented_line("@ovveride", 1)
+        res += indented_line("@override", 1)
         res += indented_line("Widget build(BuildContext context) °", 1)
         res += indented_line(
             f"return StoreConnector<AppState, {self.view_model_name}>(", 2)
@@ -24,7 +24,7 @@ class WidgetPage:
             f"converter: (store) => {self.view_model_name}.fromStore(store: store),", 3)
         res += indented_line(
             f"builder: (context, vm) => _{self.page_name}(viewModel: vm),", 3)
-        res += indented_line(")", 2)
+        res += indented_line(");", 2)
         res += indented_line("#", 1)
         res += "\n#"
         res += "\n\n"
