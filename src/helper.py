@@ -1,6 +1,6 @@
 import os
 
-BASE_DIR = "outputs/redux"
+BASE_DIR = r"outputs/redux"
 
 
 def indented_line(s, level=0):
@@ -50,7 +50,7 @@ def write_pages(component_name, pages, dir=BASE_DIR):
         # os.path.join('lib', 'redux', value[2])
         path = os.path.join(dir, component_name)
         os.makedirs(path, exist_ok=True)
-        file_path = os.path.join(path, f'{component_name}_{post}')
+        file_path = os.path.join(path, f'{component_name}_{post}.dart')
         with open(file_path, 'w') as f:
             print(f"Writing {post} in {file_path}")
             f.write(page)

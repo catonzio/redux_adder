@@ -15,7 +15,7 @@ def main(args):
 def handle_arguments():
     default_args = ['new', "-d", "inputs"]
     # default_args = ['new', "-f", "inputs/prova2.json"]
-    # default_args = ["init"]
+    default_args = ["init"]
 
     parser = argparse.ArgumentParser(
         description="Project for modifying or adding redux components in flutter.")
@@ -25,8 +25,10 @@ def handle_arguments():
                         help="the relative path of the directory where multiple scheletons are located")
     parser.add_argument("action", choices=[
                         "new", "refresh", "init"], help="The action to perform")
-
-    return parser.parse_args(default_args)
+    parser.add_argument(
+        "dest", help="The path of the base folder used by the program", default="redux_adder")
+    # return parser.parse_args(default_args)
+    return parser.parse_args()
 
 
 if __name__ == "__main__":

@@ -1,8 +1,0 @@
-final appReducer = combineReducers<AppState>([
-	(state, action) => AppState(
-		provaState: provaReducer(state.provaState, action),
-		prova2State: prova2Reducer(state.prova2State, action),
-		prova3State: prova3Reducer(state.prova3State, action),
-		prova4State: prova4Reducer(state.prova4State, action),
-	)
-]);

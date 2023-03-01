@@ -94,6 +94,7 @@ def init_project():
     params = get_folder_components()
     make_app_component(params)
     create_store_page(params)
+    write_main_page()
 
 
 def make_app_component(params=None):
@@ -121,9 +122,38 @@ def create_store_page(params=None):
     res += indented_line(");", 1)
     res += indented_line("#")
     res = res.replace('°', '{').replace('#', '}')
-    with open(os.path.join(BASE_DIR, "store"), "w") as f:
+    with open(os.path.join(BASE_DIR, "store.dart"), "w") as f:
+        f.write(res)
+
+
+def write_main_page():
+    res = "import 'package:redux/redux.dart';\nimport 'package:flutter_redux/flutter_redux.dart';\n"
+    res += indented_line("void main() °")
+    res += indented_line("WidgetsFlutterBinding.ensureInitialized();", 1)
+    res += indented_line("runApp(MyApp())", 1)
+    res += indented_line("#\n")
+
+    res += indented_line("class MyApp extends StatelessWidget °")
+    res += indented_line("MyApp(°super.key#);", 1)
+    res += indented_line("final Store<AppState> store = createStore();\n", 1)
+    res += indented_line("@override", 1)
+    res += indented_line("Widget build(BuildContext context) °", 1)
+    res += indented_line("return StoreProvider<AppState>(", 2)
+    res += indented_line("store: store,", 3)
+    res += indented_line("child: MaterialApp(", 3)
+    res += indented_line("title: 'AppName',", 4)
+    res += indented_line("initialRoute: HomePage.routeName,", 4)
+    res += indented_line("onGenerateRoute: RouteGenerator.generateRoute,", 4)
+    res += indented_line("navigatorKey: Keys.navigatorKey,", 4)
+    res += indented_line(")", 3)
+    res += indented_line(");", 2)
+    res += indented_line("}", 1)
+    res += indented_line("}")
+    res = res.replace('°', '{').replace('#', '}')
+    with open(os.path.join(BASE_DIR, "..", "main.dart"), "w") as f:
         f.write(res)
 
 
 if __name__ == "__main__":
-    new_redux_component()
+    # new_redux_component()
+    write_main_page()
