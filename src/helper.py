@@ -2,12 +2,14 @@ import os
 
 # base_dir = r"outputs/redux"
 base_dir = "lib/redux"
+config_dir = "lib/config"
 
 
 def update_base_dir(path):
     # global base_dir
     # base_dir = os.path.join(path, "redux")
     globals()['base_dir'] = os.path.join(path, "redux")
+    globals()['config_dir'] = os.path.join(path, "config")
 
 
 def indented_line(s, level=0):
@@ -63,10 +65,12 @@ def write_pages(component_name, pages, dir=base_dir):
             f.write(page)
 
 
-def get_folder_components():
+def     get_folder_components():
     return [{"type": capitalize(f) + "State", "name": f + "State", "is_comp": True}
             for f in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, f)) and f != "app"]
 
+def sanitize_string(s):
+    return s.replace('°', '{').replace('#', '}')
 
 if __name__ == "__main__":
     pass
