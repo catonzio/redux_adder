@@ -65,7 +65,7 @@ def write_pages(component_name, pages, dir=base_dir):
             f.write(page)
 
 
-def     get_folder_components():
+def get_folder_components():
     return [{"type": capitalize(f) + "State", "name": f + "State", "is_comp": True}
             for f in os.listdir(base_dir) if os.path.isdir(os.path.join(base_dir, f)) and f != "app"]
 
