@@ -1,0 +1,10 @@
+{
+    "name": "home",
+    "params": [
+        {
+            "type": "int",
+            "name": "counter",
+            "is_comp": false
+        }
+    ]
+}

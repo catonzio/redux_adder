@@ -1,3 +1,4 @@
+import json
 import helper as h
 import os
 from pages.action_page import ActionPage
@@ -27,8 +28,42 @@ def write_redux_component(component_name, params):
 
 
 def make_homepage_component():
-    write_redux_component(component_name="home", params=[{
-                          "type": "int", "name": "counter", "is_comp": False}])
+    params = [{"type": "int", "name": "counter", "is_comp": False}]
+    write_redux_component(component_name="home", params=params)
+    path = os.path.join(h.base_dir, "..", "models")
+    os.makedirs(path, exist_ok=True)
+    with open(os.path.join(path, "home.json"), 'w') as f:
+        f.write(json.dumps({"name": "home", "params": params}, indent=4))
+    setup_home_page()
+
+def setup_home_page():
+    code = """
+    return SafeArea(
+        child: Scaffold(
+        appBar: AppBar(
+            title: const Text("MyApp"),
+        ),
+        body: Center(
+            child: Text(
+            "${viewModel.state.counter}",
+            style: const TextStyle(fontSize: 32),
+        )),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () =>
+                viewModel.updateCounter!(viewModel.state.counter + 1),
+            child: const Icon(Icons.add)),
+        ),
+    );
+}
+}
+    """
+    path = os.path.join(h.base_dir, "home", "home_page.dart")
+    with open(path, 'r') as f:
+        file_content = f.read().split("\n")
+    result = "\n".join(file_content[:28])
+    result += code
+    with open(path, 'w') as f:
+        f.write(result)
 
 
 def make_app_component(params=None):
@@ -103,6 +138,7 @@ def write_config_pages():
     with open(os.path.join(dir, "keys.dart"), "w") as f:
         f.write(res)
 
+
 """
         
             
@@ -114,13 +150,15 @@ def write_config_pages():
 
 """
 
+
 def write_route_generator(params):
     def case_page(name):
         res = indented_line(f"case {name}.routeName:", 3)
         res += indented_line("return MaterialPageRoute(", 4)
-        res += indented_line(f"builder: (_) => const {name}(), settings: settings);", 6)
+        res += indented_line(
+            f"builder: (_) => const {name}(), settings: settings);", 6)
         return res
-    
+
     dir = h.config_dir
     os.makedirs(dir, exist_ok=True)
     res = "import 'package:flutter/material.dart';\n"
@@ -134,17 +172,19 @@ def write_route_generator(params):
     res += indented_line("args = settings.arguments as Map<String, dynamic>;", 3)
     res += indented_line("#\n", 2)
     res += indented_line("switch (settings.name) °", 2)
-    res += "\n".join([case_page(p["type"].replace("State", "Page")) for p in params])
+    res += "\n".join([case_page(p["type"].replace("State", "Page"))
+                     for p in params])
     res += indented_line("default:", 3)
     res += indented_line("// If there is no such named route in the switch statement", 4)
     res += indented_line("return MaterialPageRoute(", 4)
     res += indented_line("builder: (_) =>", 5)
-    res += indented_line("const Scaffold(body: SafeArea(child: Center(child: Text('Route Error')))),", 5)
+    res += indented_line(
+        "const Scaffold(body: SafeArea(child: Center(child: Text('Route Error')))),", 5)
     res += indented_line("settings: settings);", 5)
     res += indented_line("#", 3)
     res += indented_line("#", 2)
     res += indented_line("#", 1)
-    
+
     res = h.sanitize_string(res)
     with open(os.path.join(dir, "route_generator.dart"), "w") as f:
         f.write(res)

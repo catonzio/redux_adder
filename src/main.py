@@ -29,8 +29,8 @@ def handle_arguments():
                         "new", "refresh", "init"], help="The action to perform")
     parser.add_argument(
         "dest", help="The path of the base folder used by the program", default="redux_adder")
-    # return parser.parse_args(default_args)
-    return parser.parse_args()
+    return parser.parse_args(default_args)
+    # return parser.parse_args()
 
 
 if __name__ == "__main__":
