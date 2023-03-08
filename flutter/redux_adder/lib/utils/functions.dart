@@ -37,6 +37,12 @@ String changeCase(String word) {
   return word.contains("_") ? snakeToCamel(word) : camelToSnake(word);
 }
 
+void printHeader(String word, {int size = 50}) {
+  print("\n#${"-" * size}#");
+  int spacing = ((size + 2) / 2 - (word.length / 2)).toInt();
+  print("${" " * spacing}$word\n");
+}
+
 void main(List<String> args) {
-  print(changeCase(changeCase("questaEUnaVariabileDiProva")));
+  printHeader("Hello");
 }

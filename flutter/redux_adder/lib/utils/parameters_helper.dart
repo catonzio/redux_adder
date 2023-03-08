@@ -104,5 +104,24 @@ String getComponentsReducerDeclaration(
 
 String getParameterReducerImplementation(
     Map<String, dynamic> parameter, String stateName) {
-  return "";
+  String actionName =
+      getActionFromName(parameter['name'], stateName.replaceAll("State", ""));
+  String snakeActionName = getSnakeActionName(actionName);
+  String res =
+      "$stateName $snakeActionName($stateName state, $actionName action) {";
+  res += indent("return state.copyWith(", tabs: 1);
+  res += indent("${parameter['name']}; action.value", tabs: 2);
+  res += indent(")", tabs: 1);
+  res += indent("}");
+  return res;
+}
+
+String buildActionDeclaration(
+    Map<String, dynamic> parameter, String stateName) {
+  String actionName = getActionFromName(parameter['name'], stateName);
+  String res = "class $actionName {";
+  res += indent("final ${parameter['type']} value;\n", tabs: 1);
+  res += indent("$actionName({required this.value});", tabs: 1);
+  res += indent("}");
+  return res;
 }

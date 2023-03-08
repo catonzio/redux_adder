@@ -1,20 +1,21 @@
-import 'package:path/path.dart';
+import 'package:redux_adder/pages/base_page.dart';
 import 'package:redux_adder/utils/file_handler.dart';
 
 import '../utils/functions.dart';
 
-class StatePage {
+class StatePageBuilder extends BasePage {
   final String baseName;
-  final List<Map<String, String>> parameters;
+  final List<Map<String, dynamic>> parameters;
   final String stateName;
 
-  StatePage({required this.baseName, required this.parameters})
+  StatePageBuilder({required this.baseName, required this.parameters})
       : stateName = "${capitalize(baseName)}State";
 
-  Future<void> buildPage() async {
+  @override
+  String buildPage() {
     String res = "import 'dart:convert';\n";
     res += indent("bella zio", tabs: 1);
-    await writeFile(path: "libr/redux/prova", content: res);
+    return res;
   }
 }
 

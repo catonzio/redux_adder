@@ -137,20 +137,8 @@ def write_config_pages():
     res = h.sanitize_string(res)
     with open(os.path.join(dir, "keys.dart"), "w") as f:
         f.write(res)
-
-
-"""
         
-            
-                
-            
-    }
-  }
-}
-
-"""
-
-
+        
 def write_route_generator(params):
     def case_page(name):
         res = indented_line(f"case {name}.routeName:", 3)

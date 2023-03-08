@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'package:path/path.dart';
+import 'package:redux_adder/utils/constants.dart';
+import 'package:redux_adder/utils/functions.dart';
 
-Future<bool> writeFile({path, content}) async {
+Future<bool> writeFile({required path, required content}) async {
   try {
     File file = File(path);
     await file.create(recursive: true);
@@ -18,4 +21,33 @@ Future<String> readFile({required path}) async {
   } catch (ex) {
     return Future.value("");
   }
+}
+
+String readFileSync({required path}) {
+  try {
+    File file = File(path);
+    return file.readAsStringSync();
+  } catch (ex) {
+    return "";
+  }
+}
+
+Future<void> writePages(String componentName, List<List<String>> pages,
+    {String dir = ""}) async {
+  dir = dir.isEmpty ? Constants.basePath : dir;
+  printHeader(componentName);
+  for (List pagePost in pages) {
+    String page = pagePost[0], post = pagePost[1];
+    String filePath =
+        [dir, componentName, "${componentName}_$post.dart"].join("/");
+    print("Writing $post in ${absolute(filePath)}");
+    writeFile(path: filePath, content: page);
+  }
+}
+
+void main(List<String> args) {
+  writePages("prova", [
+    ["contenuto 1", "state"],
+    ["contenuto 2", "vm"]
+  ]);
 }

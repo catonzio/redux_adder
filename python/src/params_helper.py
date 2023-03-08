@@ -1,5 +1,4 @@
-from helper import get_action_from_name, get_snake_action_name
-from helper import indented_line, uncapitalize
+from helper import get_action_from_name, get_snake_action_name, indented_line, uncapitalize
 
 
 def get_param_declaration(param):
