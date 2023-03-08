@@ -5,8 +5,8 @@ import '../utils/functions.dart';
 
 class StatePageBuilder extends BasePage {
   final String baseName;
-  final List<Map<String, dynamic>> parameters;
   final String stateName;
+  final List<Map<String, dynamic>> parameters;
 
   StatePageBuilder({required this.baseName, required this.parameters})
       : stateName = "${capitalize(baseName)}State";

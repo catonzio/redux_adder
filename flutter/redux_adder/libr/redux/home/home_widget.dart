@@ -26,6 +26,22 @@ class _HomePage extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
-    return Container();
-  }
+    return SafeArea(
+        child: Scaffold(
+        appBar: AppBar(
+            title: const Text("MyApp"),
+        ),
+        body: Center(
+            child: Text(
+            "${viewModel.state.counter}",
+            style: const TextStyle(fontSize: 32),
+        )),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () =>
+                viewModel.updateCounter!(viewModel.state.counter + 1),
+            child: const Icon(Icons.add)),
+        ),
+    );
 }
+}
+    
