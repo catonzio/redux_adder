@@ -45,6 +45,33 @@ Future<void> writePages(String componentName, List<List<String>> pages,
   }
 }
 
+Future<List<Map<String, dynamic>>> getFolderComponents() async {
+  final dir = Directory(Constants.basePath);
+  final List<FileSystemEntity> entities = await dir.list().toList();
+  final List<String> names = [
+    for (var e in entities)
+      if (FileSystemEntity.isDirectorySync(e.path) && !e.path.contains("app"))
+        e.path.split("\\").last
+  ];
+  return [
+    for (String n in names)
+      {
+        "type": "${capitalize(n)}State",
+        "name": "${n}State",
+        "is_comp": true,
+      }
+  ];
+}
+
+Future<List<String>> getFilesInDirectory(inputDirectory) async {
+  final dir = Directory(inputDirectory);
+  final List<FileSystemEntity> entities = await dir.list().toList();
+  return [
+    for (var e in entities)
+      if (FileSystemEntity.isFileSync(e.path)) e.path
+  ];
+}
+
 void main(List<String> args) {
   writePages("prova", [
     ["contenuto 1", "state"],

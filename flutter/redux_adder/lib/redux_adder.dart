@@ -1,13 +1,11 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:redux_adder/pages/default_pages.dart';
-import 'package:redux_adder/utils/constants.dart';
 import 'package:redux_adder/utils/file_handler.dart';
 import 'package:redux_adder/utils/functions.dart';
 
 void handleArguments() {
-  newReduxComponent(inputFile: "inputs/prova.json");
+  // newReduxComponent(inputFile: "inputs/prova.json");
+  initProject();
 }
 
 Future<void> newReduxComponent(
@@ -38,43 +36,17 @@ Future<void> newReduxComponent(
   makeStorePage(parameters);
 }
 
-Future<List<Map<String, dynamic>>> getFolderComponents() async {
-  final dir = Directory(Constants.basePath);
-  final List<FileSystemEntity> entities = await dir.list().toList();
-  final List<String> names = [
-    for (var e in entities)
-      if (FileSystemEntity.isDirectorySync(e.path) && !e.path.contains("app"))
-        e.path.split("\\").last
-  ];
-  return [
-    for (String n in names)
-      {
-        "type": "${capitalize(n)}State",
-        "name": "${n}State",
-        "is_comp": true,
-      }
-  ];
-}
-
-Future<List<String>> getFilesInDirectory(inputDirectory) async {
-  final dir = Directory(inputDirectory);
-  final List<FileSystemEntity> entities = await dir.list().toList();
-  return [
-    for (var e in entities)
-      if (FileSystemEntity.isFileSync(e.path)) e.path
-  ];
-}
-
-List<Map<String, dynamic>> getParamsFromUser() {
-  return [
-    {"type": "int", "name": "param1"},
-    {"type": "bool", "name": "param2"},
-    {"type": "List<int>", "name": "param3"},
-  ];
-}
-
-List<dynamic> getNameParamsJson(inputFile) {
-  String content = readFileSync(path: inputFile);
-  Map<dynamic, dynamic> jsonContent = jsonDecode(content);
-  return [jsonContent["name"], jsonContent["params"]];
+void initProject() async {
+  await makeHomepageComponent();
+  List<Map<String, dynamic>> parameters = await getFolderComponents();
+  makeAppComponent(parameters);
+  makeStorePage(parameters);
+  makeMainPage();
+  makeKeysPage();
+  makeRouteGenerator(parameters);
+  print("\nUse the following commands to install the needed packages:");
+  print(
+      "\tflutter pub add flutter_redux\t(https://pub.dev/packages/flutter_redux)");
+  print("\tflutter pub add redux\t\t(https://pub.dev/packages/redux)");
+  print("Have a nice day 😊");
 }

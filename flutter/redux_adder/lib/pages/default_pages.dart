@@ -1,6 +1,10 @@
 import 'dart:convert';
 
+import 'package:redux_adder/pages/action_page_builder.dart';
+import 'package:redux_adder/pages/middleware_page_builder.dart';
 import 'package:redux_adder/pages/reducer_page_builder.dart';
+import 'package:redux_adder/pages/viewmodel_page_builder.dart';
+import 'package:redux_adder/pages/widget_page_builder.dart';
 import 'package:redux_adder/utils/constants.dart';
 import 'package:redux_adder/utils/file_handler.dart';
 import 'package:redux_adder/utils/functions.dart';
@@ -18,16 +22,25 @@ void writeReduxComponent(
   String reducerPage =
       ReducerPageBuilder(baseName: componentName, parameters: parameters)
           .buildPage();
+  String actionPage = ActionPageBuilder().buildPage();
+  String middlewarePage =
+      MiddlewarePageBuilder(baseName: componentName).buildPage();
+  String viewModelPage = ViewModelPageBuilder().buildPage();
+  String widgetPage = WidgetPageBuilder(baseName: componentName).buildPage();
 
   List<List<String>> pages = [
     [statePage, "state"],
-    [reducerPage, "reducer"]
+    [reducerPage, "reducer"],
+    [actionPage, "action"],
+    [middlewarePage, "middleware"],
+    [viewModelPage, "vm"],
+    [widgetPage, "widget"],
   ];
 
   writePages(componentName, pages);
 }
 
-void makeHomepageComponent() async {
+Future<void> makeHomepageComponent() async {
   List<Map<String, dynamic>> params = [
     {"type": "int", "name": "counter", "is_comp": false}
   ];
@@ -55,11 +68,11 @@ void makeHomepageComponent() async {
 }
 }
     """;
-  String path = [Constants.basePath, "home", "home_page.dart"].join("/");
-  List<String> content = readFileSync(path: path).split("\n");
-  String result = content.sublist(0, 28).join("\n");
-  result += code;
-  writeFile(path: path, content: result);
+  // String path = [Constants.basePath, "home", "home_page.dart"].join("/");
+  // List<String> content = readFileSync(path: path).split("\n");
+  // String result = content.sublist(0, 28).join("\n");
+  // result += code;
+  // writeFile(path: path, content: result);
 }
 
 void makeAppComponent(List<Map<String, dynamic>> parameters) {
@@ -149,7 +162,8 @@ class Keys {
 	static final navigatorKey = GlobalKey<NavigatorState>();
 }
 """;
-  writeFile(path: [Constants.configPath, "keys.dart"].join("/"), content: content);
+  writeFile(
+      path: [Constants.configPath, "keys.dart"].join("/"), content: content);
 }
 
 String buildCasePage(String name) {
@@ -192,9 +206,21 @@ void makeRouteGenerator(List<Map<String, dynamic>> parameters) {
   res += indent("}", tabs: 3);
   res += indent("}", tabs: 2);
   res += indent("}", tabs: 1);
-  writeFile(path: [Constants.configPath, "route_generator.dart"].join("/"), content: res);
+  writeFile(
+      path: [Constants.configPath, "route_generator.dart"].join("/"),
+      content: res);
 }
 
 void main(List<String> args) {
-  makeMainPage();
+  // makeMainPage();
+  int x = 10;
+  int y = 20;
+  String s = """
+The result of the multiplication between
+  x = $x,
+  y = $y,
+  is equal to
+    z = ${x * y}
+""";
+  print(s);
 }

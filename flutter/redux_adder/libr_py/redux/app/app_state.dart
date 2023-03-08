@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import '../home/home_state.dart';
 
 class AppState {
@@ -7,7 +6,7 @@ class AppState {
 	final HomeState homeState;
 
 	AppState({
-		required this.homeState
+		required this.homeState,
 	});
 
 	AppState copyWith({
@@ -35,15 +34,12 @@ class AppState {
 	};
 
 	@override
-	bool operator ==(Object other) =>
-		identical(this, other) ||
-		other is AppState
-		&& homeState == other.homeState
-	;
+	bool operator ==(Object other) => 
+		identical(this, other) || 
+		other is AppState && 
+		homeState == other.homeState;
 
 	@override
-	int get hashCode =>
-		super.hashCode
-		^ homeState.hashCode
-	;
+	int get hashCode => super.hashCode ^ 
+		homeState.hashCode;
 }

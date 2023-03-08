@@ -54,11 +54,35 @@ String getParameterFromJson(Map<String, dynamic> parameter) {
     return "";
   } else {
     if (parameter['is_comp']) {
+      return "${parameter['name']}: ${parameter['type']}.fromJson(json['${parameter['name']}']),";
+    } else {
+      return "${parameter['name']}: jsonDecode(json['${parameter['name']}']),";
+    }
+  }
+}
+
+String getParameterToJson(Map<String, dynamic> parameter) {
+  if (parameter['type'].toLowerCase().contains("function")) {
+    return "";
+  } else {
+    if (parameter['is_comp']) {
       return "'${parameter['name']}': ${parameter['name']}.toJson(),";
     } else {
       return "'${parameter['name']}': jsonEncode(${parameter['name']}),";
     }
   }
+}
+
+String getParameterEquals(Map<String, dynamic> parameter) {
+  return !(parameter['type'].toLowerCase().contains("function"))
+      ? parameter['name'] + " == other." + parameter['name']
+      : "";
+}
+
+String getParameterHashcode(Map<String, dynamic> parameter) {
+  return !(parameter['type'].toLowerCase().contains("function"))
+      ? parameter['name'] + ".hashCode"
+      : "";
 }
 
 String getParameterFunctionVm(

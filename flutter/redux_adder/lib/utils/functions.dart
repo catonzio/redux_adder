@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'file_handler.dart';
+
 String capitalize(String word) {
   return "${word[0].toUpperCase()}${word.substring(1)}";
 }
@@ -41,6 +45,20 @@ void printHeader(String word, {int size = 50}) {
   print("\n#${"-" * size}#");
   int spacing = ((size + 2) / 2 - (word.length / 2)).toInt();
   print("${" " * spacing}$word\n");
+}
+
+List<Map<String, dynamic>> getParamsFromUser() {
+  return [
+    {"type": "int", "name": "param1"},
+    {"type": "bool", "name": "param2"},
+    {"type": "List<int>", "name": "param3"},
+  ];
+}
+
+List<dynamic> getNameParamsJson(inputFile) {
+  String content = readFileSync(path: inputFile);
+  Map<String, dynamic> jsonContent = jsonDecode(content);
+  return [jsonContent["name"], jsonContent["params"]];
 }
 
 void main(List<String> args) {
