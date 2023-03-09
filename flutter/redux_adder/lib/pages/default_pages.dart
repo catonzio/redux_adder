@@ -23,10 +23,14 @@ void writeReduxComponent(
   String reducerPage =
       ReducerPageBuilder(baseName: componentName, parameters: parameters)
           .buildPage();
-  String actionPage = ActionPageBuilder().buildPage();
+  String actionPage =
+      ActionPageBuilder(baseName: componentName, parameters: parameters)
+          .buildPage();
   String middlewarePage =
       MiddlewarePageBuilder(baseName: componentName).buildPage();
-  String viewModelPage = ViewModelPageBuilder().buildPage();
+  String viewModelPage =
+      ViewModelPageBuilder(baseName: componentName, parameters: parameters)
+          .buildPage();
   String widgetPage = WidgetPageBuilder(baseName: componentName).buildPage();
 
   List<List<String>> pages = [
@@ -35,7 +39,7 @@ void writeReduxComponent(
     [actionPage, "action"],
     [middlewarePage, "middleware"],
     [viewModelPage, "vm"],
-    [widgetPage, "widget"],
+    [widgetPage, "page"],
   ];
 
   writePages(componentName, pages);
@@ -45,10 +49,11 @@ Future<void> makeHomepageComponent() async {
   List<Map<String, dynamic>> params = [
     {"type": "int", "name": "counter", "is_comp": false}
   ];
+  Map<String, dynamic> jsonView = {"name": "home", "params": params};
   writeReduxComponent("home", params);
   await writeFile(
       path: [Constants.basePath, "..", "models", "home.json"].join("/"),
-      content: JsonEncoder.withIndent("\t").convert(params));
+      content: JsonEncoder.withIndent("\t").convert(jsonView));
   String code = """
     return SafeArea(
         child: Scaffold(
@@ -69,7 +74,7 @@ Future<void> makeHomepageComponent() async {
 }
 }
     """;
-  String path = [Constants.basePath, "home", "home_widget.dart"].join("/");
+  String path = [Constants.basePath, "home", "home_page.dart"].join("/");
   List<String> content = readFileSync(path: path).split("\n");
   String result = content.sublist(0, 28).join("\n");
   result += "\n$code";
@@ -170,7 +175,7 @@ class Keys {
   String path = [Constants.configPath, "keys.dart"].join("/");
   printHeader("Keys");
   print("Writing keys page in ${absolute(path)}");
-  writeFile(path: join, content: content);
+  writeFile(path: path, content: content);
 }
 
 String buildCasePage(String name) {

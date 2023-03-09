@@ -134,7 +134,7 @@ String getParameterReducerImplementation(
   String res =
       "$stateName $snakeActionName($stateName state, $actionName action) {";
   res += indent("return state.copyWith(", tabs: 1);
-  res += indent("${parameter['name']}; action.value", tabs: 2);
+  res += indent("${parameter['name']}: action.value", tabs: 2);
   res += indent(")", tabs: 1);
   res += indent("}");
   return res;
