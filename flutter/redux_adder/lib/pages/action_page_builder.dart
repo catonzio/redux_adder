@@ -2,9 +2,11 @@ import 'package:redux_adder/pages/base_page.dart';
 import 'package:redux_adder/utils/functions.dart';
 import 'package:redux_adder/utils/parameters_helper.dart';
 
+import '../models/parameter.dart';
+
 class ActionPageBuilder extends BasePage {
   final String baseName;
-  final List<Map<String, dynamic>> parameters;
+  final List<Parameter> parameters;
   late String stateName;
 
   ActionPageBuilder({required this.baseName, required this.parameters})
@@ -14,7 +16,7 @@ class ActionPageBuilder extends BasePage {
   String buildPage() {
     String res = [
       for (var p in parameters)
-        if (!p['is_comp']) buildActionDeclaration(p, stateName)
+        if (!p.isComp) buildActionDeclaration(p, stateName)
     ].join("\n\n");
     return res;
   }

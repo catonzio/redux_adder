@@ -1,3 +1,4 @@
+import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/pages/base_page.dart';
 import 'package:redux_adder/utils/parameters_helper.dart';
 
@@ -6,7 +7,7 @@ import '../utils/functions.dart';
 class StatePageBuilder extends BasePage {
   final String baseName;
   final String stateName;
-  final List<Map<String, dynamic>> parameters;
+  final List<Parameter> parameters;
 
   StatePageBuilder({required this.baseName, required this.parameters})
       : stateName = "${capitalize(baseName)}State";
@@ -15,7 +16,7 @@ class StatePageBuilder extends BasePage {
   String buildPage() {
     List<String> componentsNames = [
       for (var p in parameters)
-        if (p['is_comp']) p['name'].replaceAll("State", "")
+        if (p.isComp) p.name.replaceAll("State", "")
     ];
     String res = "import 'dart:convert';\n";
     res += [
@@ -37,7 +38,7 @@ class StatePageBuilder extends BasePage {
 
   String buildParamsDeclaration() {
     String res = [
-      for (var p in parameters) indent(getParameterDeclaration(p), tabs: 1)
+      for (var p in parameters) indent(p.getParameterDeclaration(), tabs: 1)
     ].join("");
     res += "\n";
     return res;
@@ -46,20 +47,20 @@ class StatePageBuilder extends BasePage {
   String buildConstructor() {
     String res = indent("$stateName({", tabs: 1);
     res += [
-      for (var p in parameters) indent(getParameterConstructor(p), tabs: 2)
-    ].join();
+      for (var p in parameters) indent(p.getParameterConstructor(), tabs: 2)
+    ].join(",");
     res += indent("});\n", tabs: 1);
     return res;
   }
 
   String buildCopyWith() {
     String res = indent("$stateName copyWith({", tabs: 1);
-    res += [for (var p in parameters) indent(getCopyWithArgument(p), tabs: 2)]
+    res += [for (var p in parameters) indent(p.getCopyWithArgument(), tabs: 2)]
         .join();
     res += indent("}) {", tabs: 1);
     res += indent("return $stateName(", tabs: 2);
     res +=
-        [for (var p in parameters) indent(getCopyWithBody(p), tabs: 3)].join();
+        [for (var p in parameters) indent(p.getCopyWithBody(), tabs: 3)].join();
     res += indent(");", tabs: 2);
     res += indent("}\n", tabs: 1);
     return res;
@@ -69,7 +70,7 @@ class StatePageBuilder extends BasePage {
     String res = indent("factory $stateName.initial() {", tabs: 1);
     res += indent("return $stateName(", tabs: 2);
     res += [
-      for (var p in parameters) indent(getParameterInitialization(p), tabs: 3)
+      for (var p in parameters) indent(p.getParameterInitialization(), tabs: 3)
     ].join();
     res += indent(");", tabs: 2);
     res += indent("}\n", tabs: 1);
@@ -81,7 +82,7 @@ class StatePageBuilder extends BasePage {
         "factory $stateName.fromJson(Map<String, dynamic> json) {",
         tabs: 1);
     res += indent("return $stateName(", tabs: 2);
-    res += [for (var p in parameters) indent(getParameterFromJson(p), tabs: 3)]
+    res += [for (var p in parameters) indent(p.getParameterFromJson(), tabs: 3)]
         .join();
     res += indent(");", tabs: 2);
     res += indent("}\n", tabs: 1);
@@ -90,7 +91,7 @@ class StatePageBuilder extends BasePage {
 
   String buildToJson() {
     String res = indent("Map<String, dynamic> toJson() => {", tabs: 1);
-    res += [for (var p in parameters) indent(getParameterToJson(p), tabs: 2)]
+    res += [for (var p in parameters) indent(p.getParameterToJson(), tabs: 2)]
         .join();
     res += indent("};\n", tabs: 1);
     return res;
@@ -102,7 +103,7 @@ class StatePageBuilder extends BasePage {
     res += indent("identical(this, other) ||", tabs: 2);
     res += indent("other is $stateName", tabs: 2);
     res += [
-      for (var p in parameters) indent("&& ${getParameterEquals(p)}", tabs: 2)
+      for (var p in parameters) indent("&& ${p.getParameterEquals()}", tabs: 2)
     ].join();
     res += indent(";\n", tabs: 1);
     return res;
@@ -113,7 +114,7 @@ class StatePageBuilder extends BasePage {
     res += indent("int get hashCode =>", tabs: 1);
     res += indent("super.hashCode", tabs: 2);
     res += [
-      for (var p in parameters) indent("^ ${getParameterHashcode(p)}", tabs: 2)
+      for (var p in parameters) indent("^ ${p.getParameterHashcode()}", tabs: 2)
     ].join();
     res += indent(";\n", tabs: 1);
     return res;

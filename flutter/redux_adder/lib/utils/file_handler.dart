@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:path/path.dart';
+import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/utils/constants.dart';
 import 'package:redux_adder/utils/functions.dart';
 
@@ -45,7 +46,7 @@ Future<void> writePages(String componentName, List<List<String>> pages,
   }
 }
 
-Future<List<Map<String, dynamic>>> getFolderComponents() async {
+Future<List<Parameter>> getFolderComponents() async {
   final dir = Directory(Constants.basePath);
   final List<FileSystemEntity> entities = await dir.list().toList();
   final List<String> names = [
@@ -55,11 +56,7 @@ Future<List<Map<String, dynamic>>> getFolderComponents() async {
   ];
   return [
     for (String n in names)
-      {
-        "type": "${capitalize(n)}State",
-        "name": "${n}State",
-        "is_comp": true,
-      }
+      Parameter(type: "${capitalize(n)}State", name: "${n}State", isComp: true)
   ];
 }
 

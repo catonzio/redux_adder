@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/pages/default_pages.dart';
 import 'package:redux_adder/utils/file_handler.dart';
 import 'package:redux_adder/utils/functions.dart';
@@ -15,15 +16,15 @@ Future<void> newReduxComponent(
   if (inputFile == null && inputDirectory == null) {
     stdout.write("Insert the name of the component (snake_case): ");
     String? componentName = stdin.readLineSync();
-    List<Map<String, dynamic>> parameters = getParamsFromUser();
+    List<Parameter> parameters = getParamsFromUser();
     writeReduxComponent(componentName!, parameters);
   } else if (inputFile != null && inputDirectory == null) {
-    List<dynamic> nameParams = getNameParamsJson(inputFile);
-    writeReduxComponent(nameParams[0], nameParams[1]);
+    List<dynamic> nameParamsActions = getNameParamsActionsJson(inputFile);
+    writeReduxComponent(nameParamsActions[0], nameParamsActions[1]);
   } else if (inputFile == null && inputDirectory != null) {
     List<String> filesPaths = await getFilesInDirectory(inputDirectory);
     List<List<dynamic>> namesParams = [
-      for (var f in filesPaths) getNameParamsJson(f)
+      for (var f in filesPaths) getNameParamsActionsJson(f)
     ];
 
     for (var np in namesParams) {
@@ -31,14 +32,14 @@ Future<void> newReduxComponent(
     }
   }
 
-  List<Map<String, dynamic>> parameters = await getFolderComponents();
+  List<Parameter> parameters = await getFolderComponents();
   makeAppComponent(parameters);
   makeStorePage(parameters);
 }
 
 void initProject() async {
   await makeHomepageComponent();
-  List<Map<String, dynamic>> parameters = await getFolderComponents();
+  List<Parameter> parameters = await getFolderComponents();
   makeAppComponent(parameters);
   makeStorePage(parameters);
   makeMainPage();

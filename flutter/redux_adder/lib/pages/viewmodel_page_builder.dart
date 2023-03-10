@@ -1,3 +1,4 @@
+import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/pages/base_page.dart';
 import 'package:redux_adder/utils/functions.dart';
 
@@ -7,9 +8,9 @@ class ViewModelPageBuilder extends BasePage {
   final String baseName;
   final String vmName;
   final String stateName;
-  late List<Map<String, dynamic>> parameters;
+  late List<Parameter> parameters;
   late List<String> actionNames;
-  late List<Map<String, dynamic>> functionNames;
+  late List<Parameter> functionNames;
 
   ViewModelPageBuilder({required this.baseName, required this.parameters})
       : vmName = "${capitalize(baseName)}ViewModel",
@@ -22,39 +23,26 @@ class ViewModelPageBuilder extends BasePage {
   List<String> get computeActionNames {
     return [
       for (var p in parameters)
-        if (!p['is_comp'])
-          getActionFromName(p['name'], stateName).replaceAll("State", "")
+        if (!p.isComp)
+          getActionFromName(p.name, stateName).replaceAll("State", "")
     ];
   }
 
-  List<Map<String, dynamic>> get computeFunctionNames {
+  List<Parameter> get computeFunctionNames {
     return [
       for (var p in parameters)
-        if (!p['is_comp'])
-          {
-            'type': p['type'],
-            'name': "update${capitalize(p['name'])}",
-            "is_comp": false
-          }
+        if (!p.isComp)
+          Parameter(
+              type: p.type, name: "update${capitalize(p.name)}", isComp: false)
     ];
   }
 
-  List<Map<String, dynamic>> computeParameters(
-      List<Map<String, dynamic>> functionNames) {
-    return [
-          {
-            "type": stateName,
-            "name": "state",
-            "is_comp": true,
-          }
-        ] +
+  List<Parameter> computeParameters(List<Parameter> functionNames) {
+    return [Parameter(type: stateName, name: "state", isComp: true)] +
         [
           for (var p in functionNames)
-            {
-              "type": "Function(${p['type']})?",
-              "name": p['name'],
-              "is_comp": p['is_comp']
-            }
+            Parameter(
+                type: "Function(${p.type})?", name: p.name, isComp: p.isComp)
         ];
   }
 
@@ -79,7 +67,7 @@ class ViewModelPageBuilder extends BasePage {
 
   String buildParamsDeclaration() {
     String res = [
-      for (var p in parameters) indent(getParameterDeclaration(p), tabs: 1)
+      for (var p in parameters) indent(p.getParameterDeclaration(), tabs: 1)
     ].join("");
     res += "\n";
     return res;
@@ -94,7 +82,7 @@ class ViewModelPageBuilder extends BasePage {
     res += indent(
         [
           for (int i = 0; i < functionNames.length; i++)
-            indent(getParameterFunctionVm(functionNames[i], actionNames[i]),
+            indent(functionNames[i].getParameterFunctionVm(actionNames[i]),
                 tabs: 3)
         ].join(),
         tabs: 3);
@@ -106,7 +94,7 @@ class ViewModelPageBuilder extends BasePage {
   String buildConstructor() {
     String res = indent("$vmName({", tabs: 1);
     res += [
-      for (var p in parameters) indent(getParameterConstructor(p), tabs: 2)
+      for (var p in parameters) indent(p.getParameterConstructor(), tabs: 2)
     ].join(",");
     res += indent("});\n", tabs: 1);
     return res;
@@ -116,7 +104,7 @@ class ViewModelPageBuilder extends BasePage {
     String res = indent("factory $vmName.initial() {", tabs: 1);
     res += indent("return $vmName(", tabs: 2);
     res += [
-      for (var p in parameters) indent(getParameterInitialization(p), tabs: 3)
+      for (var p in parameters) indent(p.getParameterInitialization(), tabs: 3)
     ].join();
     res += indent(");", tabs: 2);
     res += indent("}\n", tabs: 1);
@@ -127,7 +115,7 @@ class ViewModelPageBuilder extends BasePage {
     String res = indent("factory $vmName.fromJson(Map<String, dynamic> json) {",
         tabs: 1);
     res += indent("return $vmName(", tabs: 2);
-    res += [for (var p in parameters) indent(getParameterFromJson(p), tabs: 3)]
+    res += [for (var p in parameters) indent(p.getParameterFromJson(), tabs: 3)]
         .join();
     res += indent(");", tabs: 2);
     res += indent("}\n", tabs: 1);
@@ -136,7 +124,7 @@ class ViewModelPageBuilder extends BasePage {
 
   String buildToJson() {
     String res = indent("Map<String, dynamic> toJson() => {", tabs: 1);
-    res += [for (var p in parameters) indent(getParameterToJson(p), tabs: 2)]
+    res += [for (var p in parameters) indent(p.getParameterToJson(), tabs: 2)]
         .join();
     res += indent("};\n", tabs: 1);
     return res;
@@ -149,8 +137,8 @@ class ViewModelPageBuilder extends BasePage {
     res += indent("other is $vmName &&", tabs: 2);
     res += [
       for (var p in parameters)
-        if (!p['type'].toLowerCase().contains("function"))
-          indent(getParameterEquals(p), tabs: 2)
+        if (!p.type.toLowerCase().contains("function"))
+          indent(p.getParameterEquals(), tabs: 2)
     ].join(" &&");
     res += indent(";\n", tabs: 1);
     return res;
@@ -162,8 +150,8 @@ class ViewModelPageBuilder extends BasePage {
     res += indent("super.hashCode ^", tabs: 2);
     res += [
       for (var p in parameters)
-        if (!p['type'].toLowerCase().contains("function"))
-          indent(getParameterHashcode(p), tabs: 2)
+        if (!p.type.toLowerCase().contains("function"))
+          indent(p.getParameterHashcode(), tabs: 2)
     ].join(" ^");
     res += indent(";\n", tabs: 1);
     return res;

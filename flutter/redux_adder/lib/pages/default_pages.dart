@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:path/path.dart';
+import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/pages/action_page_builder.dart';
 import 'package:redux_adder/pages/middleware_page_builder.dart';
 import 'package:redux_adder/pages/reducer_page_builder.dart';
@@ -12,8 +13,7 @@ import 'package:redux_adder/utils/functions.dart';
 
 import 'state_page_builder.dart';
 
-void writeReduxComponent(
-    String componentName, List<Map<String, dynamic>> parameters) {
+void writeReduxComponent(String componentName, List<Parameter> parameters) {
   String camelCase = changeCase(componentName);
   camelCase = capitalize(camelCase);
 
@@ -46,8 +46,8 @@ void writeReduxComponent(
 }
 
 Future<void> makeHomepageComponent() async {
-  List<Map<String, dynamic>> params = [
-    {"type": "int", "name": "counter", "is_comp": false}
+  List<Parameter> params = [
+    Parameter(type: "int", name: "counter", isComp: false)
   ];
   Map<String, dynamic> jsonView = {"name": "home", "params": params};
   writeReduxComponent("home", params);
@@ -81,7 +81,7 @@ Future<void> makeHomepageComponent() async {
   writeFile(path: path, content: result);
 }
 
-void makeAppComponent(List<Map<String, dynamic>> parameters) {
+void makeAppComponent(List<Parameter> parameters) {
   String page =
       StatePageBuilder(baseName: "app", parameters: parameters).buildPage();
   String reducer = ReducerPageBuilder(baseName: "app", parameters: parameters)
@@ -92,9 +92,9 @@ void makeAppComponent(List<Map<String, dynamic>> parameters) {
   ]);
 }
 
-void makeStorePage(List<Map<String, dynamic>> parameters) {
+void makeStorePage(List<Parameter> parameters) {
   List<String> baseComponentsNames = [
-    for (var p in parameters) p['name'].replaceAll("State", "")
+    for (var p in parameters) p.name.replaceAll("State", "")
   ];
   String res = "import 'package:redux/redux.dart';\n";
   res += [
@@ -111,7 +111,7 @@ void makeStorePage(List<Map<String, dynamic>> parameters) {
   res += indent("middleware: [", tabs: 2);
   res += [
     for (var p in parameters)
-      indent("create${p['type'].replaceAll('State', '')}Middleware(),", tabs: 3)
+      indent("create${p.type.replaceAll('State', '')}Middleware(),", tabs: 3)
   ].join("\n");
   res += indent("]", tabs: 2);
   res += indent(");", tabs: 1);
@@ -185,10 +185,10 @@ String buildCasePage(String name) {
   return res;
 }
 
-void makeRouteGenerator(List<Map<String, dynamic>> parameters) {
+void makeRouteGenerator(List<Parameter> parameters) {
   String res = "import 'package:flutter/material.dart';\n";
   List<String> baseComponentsNames = [
-    for (var p in parameters) p['name'].replaceAll("State", "")
+    for (var p in parameters) p.name.replaceAll("State", "")
   ];
   res += [
     for (String name in baseComponentsNames)
@@ -203,8 +203,7 @@ void makeRouteGenerator(List<Map<String, dynamic>> parameters) {
   res += indent("}\n", tabs: 2);
   res += indent("switch (settings.name) {", tabs: 2);
   res += [
-    for (var p in parameters)
-      buildCasePage(p["type"].replaceAll("State", "Page"))
+    for (var p in parameters) buildCasePage(p.type.replaceAll("State", "Page"))
   ].join("\n");
   res += indent("default:", tabs: 3);
   res += indent("// If there is no such named route in the switch statement",

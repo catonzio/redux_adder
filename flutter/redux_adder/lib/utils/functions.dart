@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:redux_adder/models/parameter.dart';
+
 import 'file_handler.dart';
 
 String capitalize(String word) {
@@ -47,18 +49,22 @@ void printHeader(String word, {int size = 50}) {
   print("${" " * spacing}$word\n");
 }
 
-List<Map<String, dynamic>> getParamsFromUser() {
+List<Parameter> getParamsFromUser() {
   return [
-    {"type": "int", "name": "param1"},
-    {"type": "bool", "name": "param2"},
-    {"type": "List<int>", "name": "param3"},
+    Parameter.fromJson({"type": "int", "name": "param1"}),
+    Parameter.fromJson({"type": "bool", "name": "param2"}),
+    Parameter.fromJson({"type": "List<int>", "name": "param3"}),
   ];
 }
 
-List<dynamic> getNameParamsJson(inputFile) {
+List<dynamic> getNameParamsActionsJson(inputFile) {
   String content = readFileSync(path: inputFile);
   Map<String, dynamic> jsonContent = jsonDecode(content);
-  return [jsonContent["name"], jsonContent["params"]];
+  return [
+    jsonContent["name"],
+    jsonContent["params"].cast<Map<String, dynamic>>(),
+    jsonContent["actions"].cast<Map<String, dynamic>>()
+  ];
 }
 
 void main(List<String> args) {
