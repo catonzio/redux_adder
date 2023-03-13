@@ -2,22 +2,22 @@ import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/pages/base_page.dart';
 import 'package:redux_adder/utils/functions.dart';
 
-import '../utils/parameters_helper.dart';
+import '../models/action.dart';
 
 class ViewModelPageBuilder extends BasePage {
   final String baseName;
   final String vmName;
   final String stateName;
+  final List<Action> actions;
   late List<Parameter> parameters;
-  late List<String> actionNames;
-  late List<Parameter> functionNames;
 
-  ViewModelPageBuilder({required this.baseName, required this.parameters})
-      : vmName = "${capitalize(baseName)}ViewModel",
-        stateName = "${capitalize(baseName)}State" {
-    actionNames = computeActionNames;
-    functionNames = computeFunctionNames;
-    parameters = computeParameters(functionNames);
+  ViewModelPageBuilder({
+    required this.baseName,
+    required this.vmName,
+    required this.stateName,
+    required this.actions,
+  }) {
+    parameters = computeParameters();
   }
 
   List<String> get computeActionNames {
@@ -28,21 +28,15 @@ class ViewModelPageBuilder extends BasePage {
     ];
   }
 
-  List<Parameter> get computeFunctionNames {
-    return [
-      for (var p in parameters)
-        if (!p.isComp)
-          Parameter(
-              type: p.type, name: "update${capitalize(p.name)}", isComp: false)
-    ];
-  }
-
-  List<Parameter> computeParameters(List<Parameter> functionNames) {
+  List<Parameter> computeParameters() {
     return [Parameter(type: stateName, name: "state", isComp: true)] +
         [
-          for (var p in functionNames)
+          for (var a in actions)
             Parameter(
-                type: "Function(${p.type})?", name: p.name, isComp: p.isComp)
+                type: "Function(${[
+                  for (var p in a.parameters) p.type
+                ].join(',')})?",
+                name: a.snakeActionName.replaceAll("_", ""))
         ];
   }
 
@@ -51,8 +45,8 @@ class ViewModelPageBuilder extends BasePage {
     String res =
         "import 'dart:convert';\nimport '../app/app_state.dart';\nimport 'package:redux/redux.dart';\n";
     res +=
-        "import '${baseName}_state.dart';\nimport '${baseName}_action.dart';\n\n";
-    res += "class $vmName {\n";
+        "import '${baseName}_state.dart';\nimport '${baseName}_action.dart';";
+    res += "\n\nclass $vmName {\n";
     res += buildParamsDeclaration();
     res += buildFromStore();
     res += buildConstructor();
@@ -80,11 +74,8 @@ class ViewModelPageBuilder extends BasePage {
     res += indent("return $vmName(", tabs: 2);
     res += indent("state: store.state.${uncapitalize(stateName)},", tabs: 3);
     res += indent(
-        [
-          for (int i = 0; i < functionNames.length; i++)
-            indent(functionNames[i].getParameterFunctionVm(actionNames[i]),
-                tabs: 3)
-        ].join(),
+        [for (var a in actions) indent(a.getVmActionDeclaration(), tabs: 3)]
+            .join(),
         tabs: 3);
     res += indent(");", tabs: 2);
     res += indent("}\n", tabs: 1);

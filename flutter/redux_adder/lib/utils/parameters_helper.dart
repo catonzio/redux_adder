@@ -1,6 +1,8 @@
 import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/utils/functions.dart';
 
+import '../models/action.dart';
+
 String getComponentsReducerDeclaration(
     List<Parameter> parameters, String stateName) {
   if (parameters.isEmpty) {
@@ -18,7 +20,7 @@ String getComponentsReducerDeclaration(
   }
 }
 
-String getParameterReducerImplementation(
+/*String getParameterReducerImplementation(
     Parameter parameter, String stateName) {
   String actionName =
       getActionFromName(parameter.name, stateName.replaceAll("State", ""));
@@ -30,13 +32,6 @@ String getParameterReducerImplementation(
   res += indent(")", tabs: 1);
   res += indent("}");
   return res;
-}
+}*/
 
-String buildActionDeclaration(Parameter parameter, String stateName) {
-  String actionName = getActionFromName(parameter.name, stateName);
-  String res = "class $actionName {";
-  res += indent("final ${parameter.type} value;\n", tabs: 1);
-  res += indent("$actionName({required this.value});", tabs: 1);
-  res += indent("}");
-  return res;
-}
+

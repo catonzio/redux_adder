@@ -1,12 +1,10 @@
 import 'package:redux_adder/pages/base_page.dart';
-import 'package:redux_adder/utils/functions.dart';
-
+import '../models/action.dart';
 class MiddlewarePageBuilder extends BasePage {
-  final String baseName;
   final String middlewareName;
+  final List<Action> asyncActions;
 
-  MiddlewarePageBuilder({required this.baseName})
-      : middlewareName = "create${capitalize(baseName)}Middleware";
+  MiddlewarePageBuilder({required this.middlewareName, required this.asyncActions});
 
   @override
   String buildPage() {

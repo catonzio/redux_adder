@@ -1,16 +1,13 @@
 import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/pages/base_page.dart';
-import 'package:redux_adder/utils/parameters_helper.dart';
 
 import '../utils/functions.dart';
 
 class StatePageBuilder extends BasePage {
-  final String baseName;
   final String stateName;
   final List<Parameter> parameters;
 
-  StatePageBuilder({required this.baseName, required this.parameters})
-      : stateName = "${capitalize(baseName)}State";
+  StatePageBuilder({required this.stateName, required this.parameters});
 
   @override
   String buildPage() {
@@ -36,6 +33,7 @@ class StatePageBuilder extends BasePage {
     return res;
   }
 
+  /// This function does...
   String buildParamsDeclaration() {
     String res = [
       for (var p in parameters) indent(p.getParameterDeclaration(), tabs: 1)

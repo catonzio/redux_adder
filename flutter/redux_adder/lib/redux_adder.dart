@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:redux_adder/models/component.dart';
 import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/pages/default_pages.dart';
 import 'package:redux_adder/utils/file_handler.dart';
@@ -17,18 +18,19 @@ Future<void> newReduxComponent(
     stdout.write("Insert the name of the component (snake_case): ");
     String? componentName = stdin.readLineSync();
     List<Parameter> parameters = getParamsFromUser();
-    writeReduxComponent(componentName!, parameters);
+    Component component = Component.initial();
+    // writeReduxComponent(componentName!, parameters);
   } else if (inputFile != null && inputDirectory == null) {
-    List<dynamic> nameParamsActions = getNameParamsActionsJson(inputFile);
-    writeReduxComponent(nameParamsActions[0], nameParamsActions[1]);
+    Component component = getComponentFromJson(inputFile);
+    component.writeReduxComponent();
   } else if (inputFile == null && inputDirectory != null) {
     List<String> filesPaths = await getFilesInDirectory(inputDirectory);
-    List<List<dynamic>> namesParams = [
-      for (var f in filesPaths) getNameParamsActionsJson(f)
+    List<Component> components = [
+      for (var f in filesPaths) getComponentFromJson(f)
     ];
 
-    for (var np in namesParams) {
-      writeReduxComponent(np[0], np[1]);
+    for (var c in components) {
+      c.writeReduxComponent();
     }
   }
 

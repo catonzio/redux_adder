@@ -1,59 +1,25 @@
 import 'dart:convert';
 
 import 'package:path/path.dart';
+import 'package:redux_adder/models/action.dart';
+import 'package:redux_adder/models/component.dart';
 import 'package:redux_adder/models/parameter.dart';
-import 'package:redux_adder/pages/action_page_builder.dart';
-import 'package:redux_adder/pages/middleware_page_builder.dart';
 import 'package:redux_adder/pages/reducer_page_builder.dart';
-import 'package:redux_adder/pages/viewmodel_page_builder.dart';
-import 'package:redux_adder/pages/widget_page_builder.dart';
 import 'package:redux_adder/utils/constants.dart';
 import 'package:redux_adder/utils/file_handler.dart';
 import 'package:redux_adder/utils/functions.dart';
 
 import 'state_page_builder.dart';
 
-void writeReduxComponent(String componentName, List<Parameter> parameters) {
-  String camelCase = changeCase(componentName);
-  camelCase = capitalize(camelCase);
-
-  String statePage =
-      StatePageBuilder(baseName: componentName, parameters: parameters)
-          .buildPage();
-  String reducerPage =
-      ReducerPageBuilder(baseName: componentName, parameters: parameters)
-          .buildPage();
-  String actionPage =
-      ActionPageBuilder(baseName: componentName, parameters: parameters)
-          .buildPage();
-  String middlewarePage =
-      MiddlewarePageBuilder(baseName: componentName).buildPage();
-  String viewModelPage =
-      ViewModelPageBuilder(baseName: componentName, parameters: parameters)
-          .buildPage();
-  String widgetPage = WidgetPageBuilder(baseName: componentName).buildPage();
-
-  List<List<String>> pages = [
-    [statePage, "state"],
-    [reducerPage, "reducer"],
-    [actionPage, "action"],
-    [middlewarePage, "middleware"],
-    [viewModelPage, "vm"],
-    [widgetPage, "page"],
-  ];
-
-  writePages(componentName, pages);
-}
-
 Future<void> makeHomepageComponent() async {
-  List<Parameter> params = [
-    Parameter(type: "int", name: "counter", isComp: false)
-  ];
-  Map<String, dynamic> jsonView = {"name": "home", "params": params};
-  writeReduxComponent("home", params);
+  Component home = Component(
+      name: "home",
+      parameters: [Parameter(type: "int", name: "counter", isComp: false)],
+      actions: []);
+  home.writeReduxComponent();
   await writeFile(
       path: [Constants.basePath, "..", "models", "home.json"].join("/"),
-      content: JsonEncoder.withIndent("\t").convert(jsonView));
+      content: JsonEncoder.withIndent("\t").convert(home.toJson()));
   String code = """
     return SafeArea(
         child: Scaffold(
@@ -82,9 +48,14 @@ Future<void> makeHomepageComponent() async {
 }
 
 void makeAppComponent(List<Parameter> parameters) {
-  String page =
-      StatePageBuilder(baseName: "app", parameters: parameters).buildPage();
-  String reducer = ReducerPageBuilder(baseName: "app", parameters: parameters)
+  String page = StatePageBuilder(stateName: "AppState", parameters: parameters)
+      .buildPage();
+  String reducer = ReducerPageBuilder(
+          baseName: "app",
+          reducerName: "appReducer",
+          stateName: "AppState",
+          actions: [],
+          componentsParameters: parameters)
       .buildAppPage();
   writePages("app", [
     [page, "state"],

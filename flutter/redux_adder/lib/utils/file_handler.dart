@@ -29,7 +29,7 @@ String readFileSync({required path}) {
     File file = File(path);
     return file.readAsStringSync();
   } catch (ex) {
-    return "";
+    return "invalid";
   }
 }
 

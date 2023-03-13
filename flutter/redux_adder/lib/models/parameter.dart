@@ -5,13 +5,11 @@ class Parameter {
   final String name;
   final bool isComp;
 
-  Parameter({required this.type, required this.name, required this.isComp});
+  Parameter({required this.type, required this.name, this.isComp = false});
 
   factory Parameter.fromJson(Map<String, dynamic> json) {
     return Parameter(
-        type: json['type'],
-        name: json['name'],
-        isComp: json['isComp'] ?? false);
+        type: json['type'], name: json['name'], isComp: json['is_comp'] ?? false);
   }
 
   Map<String, dynamic> toJson() =>
@@ -22,7 +20,7 @@ class Parameter {
   }
 
   String getParameterConstructor() {
-    return "${type!.endsWith('?') ? '' : 'required '}this.$name";
+    return "${type.endsWith('?') ? '' : 'required '}this.$name";
   }
 
   String getParameterInitialization() {
@@ -93,12 +91,6 @@ class Parameter {
 
   String getParameterHashcode() {
     return !(type.toLowerCase().contains("function")) ? "$name.hashCode" : "";
-  }
-
-  String getParameterFunctionVm(String actionName) {
-    String result = "$name: ($type value) =>";
-    result += indent("store.dispatch($actionName(value: value)),", tabs: 3);
-    return result;
   }
 
   String getParamReducerDeclaration(String stateName) {

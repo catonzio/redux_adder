@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:redux_adder/models/parameter.dart';
 
+import '../models/component.dart';
 import 'file_handler.dart';
 
 String capitalize(String word) {
@@ -57,16 +58,15 @@ List<Parameter> getParamsFromUser() {
   ];
 }
 
-List<dynamic> getNameParamsActionsJson(inputFile) {
+Component getComponentFromJson(inputFile) {
   String content = readFileSync(path: inputFile);
-  Map<String, dynamic> jsonContent = jsonDecode(content);
-  return [
-    jsonContent["name"],
-    jsonContent["params"].cast<Map<String, dynamic>>(),
-    jsonContent["actions"].cast<Map<String, dynamic>>()
-  ];
+  if (content != "invalid") {
+    return Component.fromJson(jsonDecode(content));
+  } else {
+    return Component.initial();
+  }
 }
 
 void main(List<String> args) {
-  printHeader("Hello");
+  print(getComponentFromJson("inputs/rova_con_actions.json").toJson());
 }

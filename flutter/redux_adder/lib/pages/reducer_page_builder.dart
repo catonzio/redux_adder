@@ -1,3 +1,4 @@
+import 'package:redux_adder/models/action.dart';
 import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/pages/base_page.dart';
 import 'package:redux_adder/utils/functions.dart';
@@ -5,26 +6,31 @@ import 'package:redux_adder/utils/parameters_helper.dart';
 
 class ReducerPageBuilder extends BasePage {
   final String baseName;
-  final List<Parameter> parameters;
+  final List<Action> actions;
+  final List<Parameter> componentsParameters;
   late String reducerName;
   late String stateName;
 
-  ReducerPageBuilder({required this.baseName, required this.parameters})
-      : reducerName = "${uncapitalize(baseName)}Reducer",
-        stateName = "${capitalize(baseName)}State";
+  ReducerPageBuilder(
+      {required this.baseName,
+      required this.reducerName,
+      required this.stateName,
+      required this.actions,
+      required this.componentsParameters});
 
   String buildAppPage() {
     List<String> paramsNames = [
-      for (var p in parameters) uncapitalize(p.name.replaceAll("State", ""))
+      for (var p in componentsParameters)
+        uncapitalize(p.name.replaceAll("State", ""))
     ];
     String res =
         "import 'package:redux/redux.dart';\nimport '${baseName}_state.dart';\n";
     res += [for (var pn in paramsNames) "import '../$pn/${pn}_reducer.dart';"]
         .join();
     res += "\n\nfinal $reducerName = combineReducers<$stateName>([";
-    res += indent("(state, action) => ${capitalize(stateName)}(", tabs: 1);
+    res += indent("(state, action) => state.copyWith(", tabs: 1);
     res += [
-      for (var p in parameters)
+      for (var p in componentsParameters)
         indent(
             "${p.name}: ${uncapitalize(p.name.replaceAll('State', ''))}Reducer(state.${p.name}, action),",
             tabs: 2)
@@ -46,17 +52,9 @@ class ReducerPageBuilder extends BasePage {
   String buildDeclaration() {
     String res = "final $reducerName = combineReducers<$stateName>([";
     res += [
-      for (var p in parameters)
-        if (!p.isComp)
-          indent(p.getParamReducerDeclaration(stateName), tabs: 1)
+      for (var a in actions) indent(a.getReducerDeclaration(stateName), tabs: 1)
     ].join();
-    res += getComponentsReducerDeclaration(
-        parameters
-            .where((p) =>
-                p.isComp &&
-                !(p.name.toLowerCase().contains(baseName.toLowerCase())))
-            .toList(),
-        stateName);
+    res += getComponentsReducerDeclaration(componentsParameters, stateName);
     res += indent("]);");
     return res;
   }
@@ -64,10 +62,8 @@ class ReducerPageBuilder extends BasePage {
   String buildImplementation() {
     String res = "\n\n";
     res += [
-      for (var p in parameters)
-        if (!p.isComp)
-          indent(getParameterReducerImplementation(p, stateName))
-    ].join();
-    return "$res\n";
+      for (var a in actions) indent(a.getReducerImplementation(stateName))
+    ].join("\n");
+    return res;
   }
 }

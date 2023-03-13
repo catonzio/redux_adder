@@ -11,7 +11,7 @@ void parseArguments(List<String> arguments) {
 }
 
 void main(List<String> arguments) {
-  parseArguments(["init", "-d", "libr"]);
-  // parseArguments(["new", "-f", "inputs/prova_con_actions.json"]);
+  // parseArguments(["init", "-d", "libr"]);
+  parseArguments(["new", "-d", "inputs"]);
   // parseArguments(arguments);
 }

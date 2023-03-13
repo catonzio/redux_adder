@@ -1,6 +1,6 @@
 {
     "name": "prova4",
-    "params": [
+    "parameters": [
         {
             "type": "int",
             "name": "param1",
@@ -20,7 +20,7 @@
     "actions": [
         {
             "name": "action1",
-            "params": [
+            "parameters": [
                 {
                     "type": "int",
                     "name": "param1"
@@ -31,7 +31,7 @@
         },
         {
             "name": "action2",
-            "params": [
+            "parameters": [
                 {
                     "type": "bool",
                     "name": "param2"

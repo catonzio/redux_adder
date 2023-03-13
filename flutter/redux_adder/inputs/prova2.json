@@ -1,6 +1,6 @@
 {
     "name": "prova2",
-    "params": [
+    "parameters": [
         {
             "type": "int",
             "name": "param1",

@@ -6,9 +6,8 @@ class WidgetPageBuilder extends BasePage {
   final String pageName;
   final String vmName;
 
-  WidgetPageBuilder({required this.baseName})
-      : pageName = "${capitalize(baseName)}Page",
-        vmName = "${capitalize(baseName)}ViewModel";
+  WidgetPageBuilder(
+      {required this.baseName, required this.pageName, required this.vmName});
 
   @override
   String buildPage() {
