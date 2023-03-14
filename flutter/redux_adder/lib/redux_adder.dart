@@ -16,9 +16,11 @@ Future<void> newReduxComponent(
 
   if (inputFile == null && inputDirectory == null) {
     stdout.write("Insert the name of the component (snake_case): ");
-    String? componentName = stdin.readLineSync();
+    String componentName = changeCase(stdin.readLineSync() ?? "");
     List<Parameter> parameters = getParamsFromUser();
-    Component component = Component.initial();
+    Component component =
+        Component(name: componentName, actions: [], parameters: parameters);
+    component.writeReduxComponent();
     // writeReduxComponent(componentName!, parameters);
   } else if (inputFile != null && inputDirectory == null) {
     Component component = getComponentFromJson(inputFile);
@@ -34,14 +36,14 @@ Future<void> newReduxComponent(
     }
   }
 
-  List<Parameter> parameters = await getFolderComponents();
+  List<Parameter> parameters = getFolderComponents();
   makeAppComponent(parameters);
   makeStorePage(parameters);
 }
 
 void initProject() async {
   await makeHomepageComponent();
-  List<Parameter> parameters = await getFolderComponents();
+  List<Parameter> parameters = getFolderComponents();
   makeAppComponent(parameters);
   makeStorePage(parameters);
   makeMainPage();

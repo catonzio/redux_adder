@@ -1,5 +1,4 @@
 import 'package:redux_adder/pages/base_page.dart';
-import 'package:redux_adder/utils/functions.dart';
 
 class WidgetPageBuilder extends BasePage {
   final String baseName;

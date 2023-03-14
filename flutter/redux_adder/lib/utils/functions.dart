@@ -67,6 +67,10 @@ Component getComponentFromJson(inputFile) {
   }
 }
 
+bool isFunction(String type) {
+  return type.toLowerCase().contains("function");
+}
+
 void main(List<String> args) {
   print(getComponentFromJson("inputs/rova_con_actions.json").toJson());
 }

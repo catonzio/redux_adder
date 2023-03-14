@@ -15,6 +15,11 @@
             "type": "Prova3State",
             "name": "prova3",
             "is_comp": true
+        },
+        {
+            "type": "Prova2State",
+            "name": "prova2",
+            "is_comp": true
         }
     ],
     "actions": [

@@ -95,7 +95,8 @@ class ViewModelPageBuilder extends BasePage {
     String res = indent("factory $vmName.initial() {", tabs: 1);
     res += indent("return $vmName(", tabs: 2);
     res += [
-      for (var p in parameters) indent(p.getParameterInitialization(), tabs: 3)
+      for (var p in parameters)
+        if (!isFunction(p.type)) indent(p.getParameterInitialization(), tabs: 3)
     ].join();
     res += indent(");", tabs: 2);
     res += indent("}\n", tabs: 1);
@@ -106,8 +107,10 @@ class ViewModelPageBuilder extends BasePage {
     String res = indent("factory $vmName.fromJson(Map<String, dynamic> json) {",
         tabs: 1);
     res += indent("return $vmName(", tabs: 2);
-    res += [for (var p in parameters) indent(p.getParameterFromJson(), tabs: 3)]
-        .join();
+    res += [
+      for (var p in parameters)
+        if (!isFunction(p.type)) indent(p.getParameterFromJson(), tabs: 3)
+    ].join();
     res += indent(");", tabs: 2);
     res += indent("}\n", tabs: 1);
     return res;
@@ -115,8 +118,10 @@ class ViewModelPageBuilder extends BasePage {
 
   String buildToJson() {
     String res = indent("Map<String, dynamic> toJson() => {", tabs: 1);
-    res += [for (var p in parameters) indent(p.getParameterToJson(), tabs: 2)]
-        .join();
+    res += [
+      for (var p in parameters)
+        if (!isFunction(p.type)) indent(p.getParameterToJson(), tabs: 2)
+    ].join();
     res += indent("};\n", tabs: 1);
     return res;
   }

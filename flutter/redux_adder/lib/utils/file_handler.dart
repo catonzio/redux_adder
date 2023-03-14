@@ -15,6 +15,17 @@ Future<bool> writeFile({required path, required content}) async {
   }
 }
 
+bool writeFileSync({required path, required content}) {
+  try {
+    File file = File(path);
+    file.createSync(recursive: true);
+    file.writeAsStringSync(content);
+    return true;
+  } catch (ex) {
+    return false;
+  }
+}
+
 Future<String> readFile({required path}) async {
   try {
     File file = File(path);
@@ -33,8 +44,8 @@ String readFileSync({required path}) {
   }
 }
 
-Future<void> writePages(String componentName, List<List<String>> pages,
-    {String dir = ""}) async {
+void writePages(String componentName, List<List<String>> pages,
+    {String dir = ""}) {
   dir = dir.isEmpty ? Constants.basePath : dir;
   printHeader(componentName);
   for (List pagePost in pages) {
@@ -42,13 +53,13 @@ Future<void> writePages(String componentName, List<List<String>> pages,
     String filePath =
         [dir, componentName, "${componentName}_$post.dart"].join("/");
     print("Writing $post in ${absolute(filePath)}");
-    writeFile(path: filePath, content: page);
+    writeFileSync(path: filePath, content: page);
   }
 }
 
-Future<List<Parameter>> getFolderComponents() async {
+List<Parameter> getFolderComponents() {
   final dir = Directory(Constants.basePath);
-  final List<FileSystemEntity> entities = await dir.list().toList();
+  final List<FileSystemEntity> entities = dir.listSync().toList();
   final List<String> names = [
     for (var e in entities)
       if (FileSystemEntity.isDirectorySync(e.path) && !e.path.contains("app"))

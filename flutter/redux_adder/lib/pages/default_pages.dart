@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:path/path.dart';
-import 'package:redux_adder/models/action.dart';
 import 'package:redux_adder/models/component.dart';
 import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/pages/reducer_page_builder.dart';
@@ -17,7 +16,7 @@ Future<void> makeHomepageComponent() async {
       parameters: [Parameter(type: "int", name: "counter", isComp: false)],
       actions: []);
   home.writeReduxComponent();
-  await writeFile(
+  writeFileSync(
       path: [Constants.basePath, "..", "models", "home.json"].join("/"),
       content: JsonEncoder.withIndent("\t").convert(home.toJson()));
   String code = """
@@ -44,7 +43,7 @@ Future<void> makeHomepageComponent() async {
   List<String> content = readFileSync(path: path).split("\n");
   String result = content.sublist(0, 28).join("\n");
   result += "\n$code";
-  writeFile(path: path, content: result);
+  writeFileSync(path: path, content: result);
 }
 
 void makeAppComponent(List<Parameter> parameters) {
@@ -83,14 +82,14 @@ void makeStorePage(List<Parameter> parameters) {
   res += [
     for (var p in parameters)
       indent("create${p.type.replaceAll('State', '')}Middleware(),", tabs: 3)
-  ].join("\n");
+  ].join("");
   res += indent("]", tabs: 2);
   res += indent(");", tabs: 1);
   res += indent("}");
   String path = [Constants.basePath, "store.dart"].join("/");
   printHeader("Store");
   print("Writing store in ${absolute(path)}");
-  writeFile(path: path, content: res);
+  writeFileSync(path: path, content: res);
 }
 
 void makeMainPage() {
@@ -131,7 +130,7 @@ class MyApp extends StatelessWidget {
   String path = [Constants.basePath, "..", "main.dart"].join("/");
   printHeader("Main");
   print("Writing main page in ${absolute(path)}");
-  writeFile(path: path, content: content);
+  writeFileSync(path: path, content: content);
 }
 
 void makeKeysPage() {
@@ -146,7 +145,7 @@ class Keys {
   String path = [Constants.configPath, "keys.dart"].join("/");
   printHeader("Keys");
   print("Writing keys page in ${absolute(path)}");
-  writeFile(path: path, content: content);
+  writeFileSync(path: path, content: content);
 }
 
 String buildCasePage(String name) {
@@ -191,7 +190,7 @@ void makeRouteGenerator(List<Parameter> parameters) {
   String path = [Constants.configPath, "route_generator.dart"].join("/");
   printHeader("Route generator");
   print("Writing route generator in ${absolute(path)}");
-  writeFile(path: path, content: res);
+  writeFileSync(path: path, content: res);
 }
 
 void main(List<String> args) {

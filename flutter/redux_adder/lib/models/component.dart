@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:redux_adder/models/action.dart';
 import 'package:redux_adder/models/parameter.dart';
 
@@ -55,10 +53,11 @@ class Component {
   void setActionsFromParameters() {
     List<Action> actions = [
       for (var p in parameters)
-        Action(
-            name: "Update${capitalize(name)}${capitalize(p.name)}Action",
-            parameters: [p],
-            isAsync: false)
+        if (!p.isComp)
+          Action(
+              name: "Update${capitalize(name)}${capitalize(p.name)}Action",
+              parameters: [p],
+              isAsync: false)
     ];
     this.actions.addAll(actions);
   }

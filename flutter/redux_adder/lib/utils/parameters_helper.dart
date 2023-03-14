@@ -1,7 +1,6 @@
 import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/utils/functions.dart';
 
-import '../models/action.dart';
 
 String getComponentsReducerDeclaration(
     List<Parameter> parameters, String stateName) {

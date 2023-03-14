@@ -9,7 +9,9 @@ class Parameter {
 
   factory Parameter.fromJson(Map<String, dynamic> json) {
     return Parameter(
-        type: json['type'], name: json['name'], isComp: json['is_comp'] ?? false);
+        type: json['type'],
+        name: json['name'],
+        isComp: json['is_comp'] ?? false);
   }
 
   Map<String, dynamic> toJson() =>
@@ -72,7 +74,7 @@ class Parameter {
   }
 
   String getParameterToJson() {
-    if (type.toLowerCase().contains("function")) {
+    if (isFunction(type)) {
       return "";
     } else {
       if (isComp) {
