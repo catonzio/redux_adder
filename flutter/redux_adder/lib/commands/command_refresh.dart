@@ -9,13 +9,14 @@ import '../pages/default_pages.dart';
 import '../utils/file_handler.dart';
 import '../utils/functions.dart';
 
-class CommandNew extends Command {
+class CommandRefresh extends Command {
   @override
-  final name = "new";
+  final name = "refresh";
   @override
-  final description = "create new component(s)";
+  final description =
+      "refresh existing component(s), creating it if it (they) doesn't exist";
 
-  CommandNew() {
+  CommandRefresh() {
     argParser.addOption("directory",
         abbr: "d",
         valueHelp: "path/to/directory",
@@ -39,22 +40,17 @@ class CommandNew extends Command {
     if (output != null) {
       Constants.updateBasePath(output);
     }
-    newReduxComponent(inputFile: file, inputDirectory: directory);
+    refreshReduxComponent(inputFile: file, inputDirectory: directory);
   }
 }
 
-Future<void> newReduxComponent(
+Future<void> refreshReduxComponent(
     {String? inputFile, String? inputDirectory}) async {
-  printHeader("Creating new component");
-
+  bool appAndStore = true;
   if (inputFile == null && inputDirectory == null) {
-    stdout.write("Insert the name of the component (snake_case): ");
-    String componentName = changeCase(stdin.readLineSync() ?? "");
-    List<Parameter> parameters = getParamsFromUser();
-    Component component =
-        Component(name: componentName, actions: [], parameters: parameters);
-    component.writeReduxComponent();
-    // writeReduxComponent(componentName!, parameters);
+    print(
+        "Error! You must specify either the input file or the input directory.");
+    appAndStore = false;
   } else if (inputFile != null && inputDirectory == null) {
     Component component = getComponentFromJson(inputFile);
     component.writeReduxComponent();
@@ -69,7 +65,9 @@ Future<void> newReduxComponent(
     }
   }
 
-  List<Parameter> parameters = getFolderComponents();
-  makeAppComponent(parameters);
-  makeStorePage(parameters);
+  if (appAndStore) {
+    List<Parameter> parameters = getFolderComponents();
+    makeAppComponent(parameters);
+    makeStorePage(parameters);
+  }
 }

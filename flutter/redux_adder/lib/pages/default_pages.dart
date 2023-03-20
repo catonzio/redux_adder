@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:path/path.dart';
 import 'package:redux_adder/models/component.dart';
 import 'package:redux_adder/models/parameter.dart';
@@ -16,9 +14,7 @@ Future<void> makeHomepageComponent() async {
       parameters: [Parameter(type: "int", name: "counter", isComp: false)],
       actions: []);
   home.writeReduxComponent();
-  writeFileSync(
-      path: [Constants.basePath, "..", "models", "home.json"].join("/"),
-      content: JsonEncoder.withIndent("\t").convert(home.toJson()));
+  // home.writeModelJson();
   String code = """
     return SafeArea(
         child: Scaffold(
@@ -32,7 +28,7 @@ Future<void> makeHomepageComponent() async {
         )),
         floatingActionButton: FloatingActionButton(
             onPressed: () =>
-                viewModel.updateCounter!(viewModel.state.counter + 1),
+                viewModel.updateHomeCounterAction!(viewModel.state.counter + 1),
             child: const Icon(Icons.add)),
         ),
     );

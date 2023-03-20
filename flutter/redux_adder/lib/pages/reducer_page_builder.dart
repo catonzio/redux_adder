@@ -1,8 +1,8 @@
-import 'package:redux_adder/models/action.dart';
-import 'package:redux_adder/models/parameter.dart';
-import 'package:redux_adder/pages/base_page.dart';
-import 'package:redux_adder/utils/functions.dart';
-import 'package:redux_adder/utils/parameters_helper.dart';
+import '../models/action.dart';
+import '../models/parameter.dart';
+import '../utils/functions.dart';
+import '../utils/components_helper.dart';
+import 'base_page.dart';
 
 class ReducerPageBuilder extends BasePage {
   final String baseName;

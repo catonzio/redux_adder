@@ -1,0 +1,24 @@
+{
+	"name": "home",
+	"parameters": [
+		{
+			"type": "int",
+			"name": "counter",
+			"is_comp": false
+		}
+	],
+	"actions": [
+		{
+			"name": "UpdateHomeCounterAction",
+			"parameters": [
+				{
+					"type": "int",
+					"name": "counter",
+					"is_comp": false
+				}
+			],
+			"implementation": "return state.copyWith(\n\t\tcounter: action.counter,\n\t);",
+			"async": false
+		}
+	]
+}

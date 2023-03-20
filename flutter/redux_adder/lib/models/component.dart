@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:redux_adder/models/action.dart';
 import 'package:redux_adder/models/parameter.dart';
 
@@ -7,6 +9,7 @@ import '../pages/reducer_page_builder.dart';
 import '../pages/state_page_builder.dart';
 import '../pages/viewmodel_page_builder.dart';
 import '../pages/widget_page_builder.dart';
+import '../utils/constants.dart';
 import '../utils/file_handler.dart';
 import '../utils/functions.dart';
 
@@ -59,7 +62,10 @@ class Component {
               parameters: [p],
               isAsync: false)
     ];
-    this.actions.addAll(actions);
+    this.actions.addAll([
+      for (var a in actions)
+        if (!this.actions.contains(a)) a
+    ]);
   }
 
   void writeReduxComponent() {
@@ -102,6 +108,13 @@ class Component {
     ];
 
     writePages(name, pages);
+    writeModelJson();
+  }
+
+  void writeModelJson() {
+    writeFileSync(
+        path: "${Constants.jsonModelsPath}/$name.json",
+        content: JsonEncoder.withIndent("\t").convert(toJson()));
   }
 }
 

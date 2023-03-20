@@ -1,0 +1,58 @@
+{
+	"name": "prova3",
+	"parameters": [
+		{
+			"type": "int",
+			"name": "param1",
+			"is_comp": false
+		},
+		{
+			"type": "bool",
+			"name": "param2",
+			"is_comp": false
+		},
+		{
+			"type": "List<int>",
+			"name": "list",
+			"is_comp": false
+		}
+	],
+	"actions": [
+		{
+			"name": "UpdateProva3Param1Action",
+			"parameters": [
+				{
+					"type": "int",
+					"name": "param1",
+					"is_comp": false
+				}
+			],
+			"implementation": "return state.copyWith(\n\t\tparam1: action.param1,\n\t);",
+			"async": false
+		},
+		{
+			"name": "UpdateProva3Param2Action",
+			"parameters": [
+				{
+					"type": "bool",
+					"name": "param2",
+					"is_comp": false
+				}
+			],
+			"implementation": "return state.copyWith(\n\t\tparam2: action.param2,\n\t);",
+			"async": false
+		},
+		{
+			"name": "UpdateProva3ListAction",
+			"parameters": [
+				{
+					"type": "List<int>",
+					"name": "list",
+					"is_comp": false
+				}
+			],
+			"implementation": "return state.copyWith(\n\t\tlist: action.list,\n\t);",
+			"async": false
+		}
+	]
+}

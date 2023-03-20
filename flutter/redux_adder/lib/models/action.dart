@@ -28,7 +28,9 @@ class Action {
   Map<String, dynamic> toJson() => {
         'name': name,
         'parameters': [for (var p in parameters) p.toJson()],
-        'implementation': implementation,
+        'implementation': implementation.isEmpty
+            ? getDefaultImplementation()
+            : implementation,
         'async': isAsync,
       };
 

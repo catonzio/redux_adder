@@ -40,6 +40,7 @@ String readFileSync({required path}) {
     File file = File(path);
     return file.readAsStringSync();
   } catch (ex) {
+    print("File at $path not found.");
     return "invalid";
   }
 }
@@ -53,7 +54,15 @@ void writePages(String componentName, List<List<String>> pages,
     String filePath =
         [dir, componentName, "${componentName}_$post.dart"].join("/");
     print("Writing $post in ${absolute(filePath)}");
-    writeFileSync(path: filePath, content: page);
+    bool choice = true;
+    if (post == "page") {
+      if (File(filePath).existsSync()) {
+        choice = false;
+      }
+    }
+    if (choice) {
+      writeFileSync(path: filePath, content: page);
+    }
   }
 }
 
