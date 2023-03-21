@@ -69,7 +69,7 @@ class Component {
   }
 
   void writeReduxComponent() {
-    String camelCase = changeCase(name);
+    String camelCase = snakeToCamel(name);
     camelCase = capitalize(camelCase);
 
     String statePage =

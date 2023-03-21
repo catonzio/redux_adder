@@ -14,7 +14,7 @@ class Action {
       required this.parameters,
       this.implementation = "",
       required this.isAsync})
-      : name = capitalize(name),
+      : name = capitalize(snakeToCamel(name)),
         snakeActionName = getSnakeActionName(name);
 
   factory Action.fromJson(Map<String, dynamic> json) {

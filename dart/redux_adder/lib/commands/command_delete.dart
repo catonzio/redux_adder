@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:redux_adder/models/action.dart';
 import 'package:redux_adder/models/parameter.dart';
 import 'package:redux_adder/pages/default_pages.dart';
 import 'package:redux_adder/utils/constants.dart';
 import 'package:redux_adder/utils/file_handler.dart';
+
+import '../models/component.dart';
 
 class CommandDelete extends Command {
   @override
@@ -54,4 +57,23 @@ void deleteComponent(String directory, {required delete}) {
     makeAppComponent(parameters);
     makeStorePage(parameters);
   }
+}
+
+void main(List<String> args) {
+  Component(name: "name_of_the_component", parameters: [
+    Parameter(
+        type: "int|bool|DateTime|OtherComponent|...", name: "nameOfParameter"),
+    Parameter(type: "List<int>", name: "myList"),
+    Parameter(type: "String", name: "stringParam"),
+    Parameter(type: "OtherState", name: "other", isComp: true)
+  ], actions: [
+    Action(
+        name: "NameOfTheAction",
+        parameters: [
+          Parameter(
+              type: "int|bool|DateTime|OtherComponent|...",
+              name: "nameOfParameter")
+        ],
+        isAsync: false)
+  ]).writeModelJson();
 }

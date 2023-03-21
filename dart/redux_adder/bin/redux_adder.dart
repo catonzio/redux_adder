@@ -14,7 +14,7 @@ void parseArguments(List<String> arguments) {
 
 void main(List<String> arguments) async {
   // parseArguments(["init", "-d", "libr"]);
-  parseArguments(["new", "-d", "inputs", "-o", "libr"]);
+  // parseArguments(["new", "-d", "inputs", "-o", "libr"]);
   // parseArguments(["delete", "-d", "libr/redux/prova2", "-y"]);
-  // parseArguments(arguments);
+  parseArguments(arguments);
 }

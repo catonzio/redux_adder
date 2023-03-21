@@ -24,6 +24,7 @@ class CommandNew extends Command {
     argParser.addOption("file",
         abbr: "f",
         valueHelp: "path/to/file.json",
+        defaultsTo: Cons,
         help: "The (relative) file from which to take component skeleton");
     argParser.addOption("output",
         abbr: "o",
@@ -49,7 +50,7 @@ Future<void> newReduxComponent(
 
   if (inputFile == null && inputDirectory == null) {
     stdout.write("Insert the name of the component (snake_case): ");
-    String componentName = changeCase(stdin.readLineSync() ?? "");
+    String componentName = snakeToCamel(stdin.readLineSync() ?? "");
     List<Parameter> parameters = getParamsFromUser();
     Component component =
         Component(name: componentName, actions: [], parameters: parameters);
