@@ -11,6 +11,7 @@ class Prova4ViewModel {
 	final Function(bool)? action2;
 	final Function(int)? updateProva4Param1Action;
 	final Function(bool)? updateProva4Param2Action;
+	final Function(List<int>,int,String?)? aggiunta;
 
 	static Prova4ViewModel fromStore({required Store<AppState> store}) {
 		return Prova4ViewModel(
@@ -24,6 +25,8 @@ class Prova4ViewModel {
 				store.dispatch(UpdateProva4Param1Action(param1: param1)),
 			updateProva4Param2Action: (bool param2) =>
 				store.dispatch(UpdateProva4Param2Action(param2: param2)),
+			aggiunta: (List<int> prova,int asd,String? pr) =>
+				store.dispatch(Aggiunta(prova: prova,asd: asd,pr: pr)),
 		);
 	}
 
@@ -32,7 +35,8 @@ class Prova4ViewModel {
 		this.action1,
 		this.action2,
 		this.updateProva4Param1Action,
-		this.updateProva4Param2Action
+		this.updateProva4Param2Action,
+		this.aggiunta
 	});
 
 	factory Prova4ViewModel.initial() {

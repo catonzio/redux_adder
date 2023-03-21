@@ -19,12 +19,12 @@ class CommandNew extends Command {
     argParser.addOption("directory",
         abbr: "d",
         valueHelp: "path/to/directory",
+        // defaultsTo: Constants.jsonModelsPath,
         help:
             "The (relative) directory from which to take component skeletons");
     argParser.addOption("file",
         abbr: "f",
         valueHelp: "path/to/file.json",
-        defaultsTo: Cons,
         help: "The (relative) file from which to take component skeleton");
     argParser.addOption("output",
         abbr: "o",

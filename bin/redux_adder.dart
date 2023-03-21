@@ -2,6 +2,7 @@ import 'package:args/command_runner.dart';
 import 'package:redux_adder/commands/command_delete.dart';
 import 'package:redux_adder/commands/command_init.dart';
 import 'package:redux_adder/commands/command_new.dart';
+import 'package:redux_adder/commands/command_refresh.dart';
 
 void parseArguments(List<String> arguments) {
   CommandRunner("redux_adder",
@@ -9,12 +10,14 @@ void parseArguments(List<String> arguments) {
     ..addCommand(CommandInit())
     ..addCommand(CommandNew())
     ..addCommand(CommandDelete())
+    ..addCommand(CommandRefresh())
     ..run(arguments);
 }
 
 void main(List<String> arguments) async {
   // parseArguments(["init", "-d", "libr"]);
-  // parseArguments(["new", "-d", "inputs", "-o", "libr"]);
+  // parseArguments(["new", "-f", "inputs/prova_con_actions.json", "-o", "libr"]);
   // parseArguments(["delete", "-d", "libr/redux/prova2", "-y"]);
-  parseArguments(arguments);
+  parseArguments(["refresh", "-f", "inputs/prova_con_actions.json"]);
+  // parseArguments(arguments);
 }

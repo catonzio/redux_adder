@@ -14,7 +14,7 @@ class CommandRefresh extends Command {
   final name = "refresh";
   @override
   final description =
-      "refresh existing component(s), creating it if it (they) doesn't exist";
+      "refresh existing component(s)";
 
   CommandRefresh() {
     argParser.addOption("directory",
@@ -40,20 +40,19 @@ class CommandRefresh extends Command {
     if (output != null) {
       Constants.updateBasePath(output);
     }
-    refreshReduxComponent(inputFile: file, inputDirectory: directory);
+    if (file == null && directory == null) {
+      super.printUsage();
+    } else {
+      refreshReduxComponent(inputFile: file, inputDirectory: directory);
+    }
   }
 }
 
 Future<void> refreshReduxComponent(
     {String? inputFile, String? inputDirectory}) async {
-  bool appAndStore = true;
-  if (inputFile == null && inputDirectory == null) {
-    print(
-        "Error! You must specify either the input file or the input directory.");
-    appAndStore = false;
-  } else if (inputFile != null && inputDirectory == null) {
+  if (inputFile != null && inputDirectory == null) {
     Component component = getComponentFromJson(inputFile);
-    component.writeReduxComponent();
+    component.refreshReduxComponent(printDiffs: true);
   } else if (inputFile == null && inputDirectory != null) {
     List<String> filesPaths = await getFilesInDirectory(inputDirectory);
     List<Component> components = [
@@ -61,13 +60,11 @@ Future<void> refreshReduxComponent(
     ];
 
     for (var c in components) {
-      c.writeReduxComponent();
+      c.refreshReduxComponent();
     }
   }
 
-  if (appAndStore) {
-    List<Parameter> parameters = getFolderComponents();
-    makeAppComponent(parameters);
-    makeStorePage(parameters);
-  }
+  List<Parameter> parameters = getFolderComponents();
+  makeAppComponent(parameters);
+  makeStorePage(parameters);
 }

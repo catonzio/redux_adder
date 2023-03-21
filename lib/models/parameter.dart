@@ -109,4 +109,17 @@ class Parameter {
       return "TypedReducer<$stateName, $actionName>($snakeActionName),";
     }
   }
+
+  @override
+  int get hashCode =>
+      super.hashCode ^ name.hashCode ^ type.hashCode ^ isComp.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return super == other ||
+        other is Parameter &&
+            name == other.name &&
+            type == other.type &&
+            isComp == other.isComp;
+  }
 }

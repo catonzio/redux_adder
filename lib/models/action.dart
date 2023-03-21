@@ -80,6 +80,22 @@ class Action {
     res += indent("store.dispatch($name(${body.join(',')})),", tabs: 4);
     return res;
   }
+
+  @override
+  int get hashCode => super.hashCode ^ name.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return super == other ||
+        other is Action &&
+            name == other.name &&
+            removeAllWhitespaces(implementation.isEmpty
+                    ? getDefaultImplementation()
+                    : implementation) ==
+                removeAllWhitespaces(other.implementation.isEmpty
+                    ? other.getDefaultImplementation()
+                    : other.implementation);
+  }
 }
 
 void main(List<String> args) {

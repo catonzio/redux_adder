@@ -71,6 +71,10 @@ bool isFunction(String type) {
   return type.toLowerCase().contains("function");
 }
 
+String removeAllWhitespaces(String inp) {
+  return inp.replaceAll(" ", "").replaceAll("\t", "").replaceAll("\n", "");
+}
+
 void main(List<String> args) {
   print(getComponentFromJson("inputs/rova_con_actions.json").toJson());
 }

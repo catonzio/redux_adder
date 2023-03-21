@@ -1,0 +1,97 @@
+{
+	"name": "prova4",
+	"parameters": [
+		{
+			"type": "int",
+			"name": "param1",
+			"is_comp": false
+		},
+		{
+			"type": "bool",
+			"name": "param2",
+			"is_comp": false
+		},
+		{
+			"type": "Prova3State",
+			"name": "prova3",
+			"is_comp": true
+		},
+		{
+			"type": "Prova2State",
+			"name": "prova2",
+			"is_comp": true
+		}
+	],
+	"actions": [
+		{
+			"name": "Action1",
+			"parameters": [
+				{
+					"type": "int",
+					"name": "param1",
+					"is_comp": false
+				}
+			],
+			"implementation": "\t  return state.copyWith(param1: action.param1);",
+			"async": false
+		},
+		{
+			"name": "Action2",
+			"parameters": [
+				{
+					"type": "bool",
+					"name": "param2",
+					"is_comp": false
+				}
+			],
+			"implementation": "\t  return state.copyWith(param2: action.param2);",
+			"async": false
+		},
+		{
+			"name": "UpdateProva4Param1Action",
+			"parameters": [
+				{
+					"type": "int",
+					"name": "param1",
+					"is_comp": false
+				}
+			],
+			"implementation": "  return state.copyWith(\n    param1: action.param1,\n  );",
+			"async": false
+		},
+		{
+			"name": "UpdateProva4Param2Action",
+			"parameters": [
+				{
+					"type": "bool",
+					"name": "param2",
+					"is_comp": false
+				}
+			],
+			"implementation": "  return state.copyWith(\n    param2: action.param2,\n  );",
+			"async": false
+		},
+		{
+			"name": "Aggiunta",
+			"parameters": [
+				{
+					"type": "List<int>",
+					"name": "prova",
+					"is_comp": false
+				},
+				{
+					"type": "int",
+					"name": "asd",
+					"is_comp": false
+				},
+				{
+					"type": "String?",
+					"name": "pr",
+					"is_comp": false
+				}
+			],
+			"implementation": "\t  return state.copyWith(\n    param1: action.asd,\n  );",
+			"async": false
+		}
+	]
+}

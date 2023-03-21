@@ -8,7 +8,7 @@ Future<bool> writeFile({required path, required content}) async {
   try {
     File file = File(path);
     await file.create(recursive: true);
-    await file.writeAsString(content);
+    await file.writeAsString(content, mode: FileMode.write);
     return true;
   } catch (ex) {
     return false;
@@ -19,7 +19,7 @@ bool writeFileSync({required path, required content}) {
   try {
     File file = File(path);
     file.createSync(recursive: true);
-    file.writeAsStringSync(content);
+    file.writeAsStringSync(content, mode: FileMode.write);
     return true;
   } catch (ex) {
     return false;
