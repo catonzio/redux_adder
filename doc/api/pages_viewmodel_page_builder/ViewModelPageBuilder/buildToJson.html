@@ -73,8 +73,10 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">String buildToJson() {
   String res = indent(&quot;Map&lt;String, dynamic&gt; toJson() =&gt; {&quot;, tabs: 1);
-  res += [for (var p in parameters) indent(p.getParameterToJson(), tabs: 2)]
-      .join();
+  res += [
+    for (var p in parameters)
+      if (!isFunction(p.type)) indent(p.getParameterToJson(), tabs: 2)
+  ].join();
   res += indent(&quot;};\n&quot;, tabs: 1);
   return res;
 }</code></pre>

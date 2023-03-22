@@ -72,7 +72,7 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void writeReduxComponent() {
-  String camelCase = changeCase(name);
+  String camelCase = snakeToCamel(name);
   camelCase = capitalize(camelCase);
 
   String statePage =
@@ -87,15 +87,15 @@
       .buildPage();
   String actionPage =
       ActionPageBuilder(stateName: stateName, actions: actions).buildPage();
-  String middlewarePage = MiddlewarePageBuilder(
-          middlewareName: middlewareName,
-          asyncActions: actions.where((a) =&gt; a.isAsync).toList())
-      .buildPage();
   String viewModelPage = ViewModelPageBuilder(
           baseName: name,
           vmName: vmName,
           stateName: stateName,
           actions: actions)
+      .buildPage();
+  String middlewarePage = MiddlewarePageBuilder(
+          middlewareName: middlewareName,
+          asyncActions: actions.where((a) =&gt; a.isAsync).toList())
       .buildPage();
   String widgetPage =
       WidgetPageBuilder(baseName: name, pageName: pageName, vmName: vmName)
@@ -105,12 +105,13 @@
     [statePage, &quot;state&quot;],
     [reducerPage, &quot;reducer&quot;],
     [actionPage, &quot;action&quot;],
-    [middlewarePage, &quot;middleware&quot;],
     [viewModelPage, &quot;vm&quot;],
+    [middlewarePage, &quot;middleware&quot;],
     [widgetPage, &quot;page&quot;],
   ];
 
   writePages(name, pages);
+  writeModelJson();
 }</code></pre>
 </section>
 
@@ -157,9 +158,12 @@
 
         <li class="section-title"><a href="../../models_component/Component-class.html#instance-methods">Methods</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+          <li><a href="../../models_component/Component/printDifferences.html">printDifferences</a></li>
+          <li><a href="../../models_component/Component/refreshReduxComponent.html">refreshReduxComponent</a></li>
           <li><a href="../../models_component/Component/setActionsFromParameters.html">setActionsFromParameters</a></li>
           <li><a href="../../models_component/Component/toJson.html">toJson</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+          <li><a href="../../models_component/Component/writeModelJson.html">writeModelJson</a></li>
           <li><a href="../../models_component/Component/writeReduxComponent.html">writeReduxComponent</a></li>
 
         <li class="section-title inherited"><a href="../../models_component/Component-class.html#operators">Operators</a></li>

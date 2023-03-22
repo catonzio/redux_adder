@@ -83,7 +83,7 @@ class Keys {
   String path = [Constants.configPath, &quot;keys.dart&quot;].join(&quot;&#47;&quot;);
   printHeader(&quot;Keys&quot;);
   print(&quot;Writing keys page in ${absolute(path)}&quot;);
-  writeFile(path: path, content: content);
+  writeFileSync(path: path, content: content);
 }</code></pre>
 </section>
 

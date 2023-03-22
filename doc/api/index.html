@@ -52,8 +52,85 @@
   <div id="dartdoc-main-content" class="main-content">
       
 <section class="desc markdown">
-  <p>A sample command-line application with an entrypoint in <code>bin/</code>, library code
-in <code>lib/</code>, and example unit test in <code>test/</code>.</p>
+  <h1 id="redux-adder">Redux Adder</h1>
+<p>Redux Adder is a Dart plugin that allows you to generate components for the <a href="https://pub.dev/packages/flutter_redux">Redux library</a> used in a Flutter project to manage the state of the app. With Redux Adder, you can quickly create new Redux components without having to write all the boilerplate code yourself.</p>
+<h2 id="installation">Installation</h2>
+<p>To use Redux Adder, you must have Dart and Flutter installed on your machine. Once you have <a href="https://dart.dev/get-dart">Dart</a> or <a href="https://docs.flutter.dev/get-started/install?gclid=CjwKCAjwiOCgBhAgEiwAjv5whPWe8ZUTUqG-jQ0INp6KgtDKFkemciUK3AOqAGcdPp5jEvtGgZyt3xoCsREQAvD_BwE&amp;gclsrc=aw.ds">Flutter</a> installed, you can install Redux Adder using the following command:</p>
+<pre class="language-dart"><code>pub global activate redux_adder
+</code></pre>
+<p>Alternatively, you can also install Redux Adder using the following command:</p>
+<pre class="language-dart"><code>flutter pub global activate redux_adder
+</code></pre>
+<h2 id="idea">Idea</h2>
+<p>The idea behind this project is that the Redux library for Flutter is fantastic when it comes to state management, but by its nature, it is very difficult to maintain and evolve.</p>
+<p>For this reason, it would be great to be able to manage the state, actions, reducers, and view model with a single easily maintainable JSON file. And with this plugin, the dream becomes true.</p>
+<p>The skeleton of a JSON component is the following:</p>
+<pre class="language-json"><code class="language-json">{
+	"name": "name_of_the_component",
+	"parameters": [
+		{
+			"type": "int|bool|DateTime|OtherComponent|...",
+			"name": "nameOfParameter",
+			"is_comp": false
+		},
+		{
+			"type": "List&lt;int&gt;",
+			"name": "myList",
+			"is_comp": false
+		},
+		{
+			"type": "String",
+			"name": "stringParam",
+			"is_comp": false
+		},
+		{
+			"type": "OtherState",
+			"name": "other",
+			"is_comp": true
+		}
+	],
+	"actions": [
+		{
+			"name": "NameOfTheAction",
+			"parameters": [
+				{
+					"type": "int|bool|DateTime|OtherComponent|...",
+					"name": "nameOfParameter",
+					"is_comp": false
+				}
+			],
+			"implementation": "return state.copyWith(\n\t\tnameOfParameter: action.nameOfParameter,\n\t);",
+			"async": false
+		}
+	]
+}
+</code></pre>
+<h2 id="commands">Commands</h2>
+<p>Redux Adder comes with several commands that you can use to generate Redux components. These commands include:</p>
+<h3 id="init">init</h3>
+<p>The <code>init</code> command initializes your Flutter project for use with Redux. You only need to run this command once per project.</p>
+<pre class="language-dart"><code>Usage: redux_adder init [arguments]
+-h, --help               Print this usage information.
+-d, --directory=&lt;lib&gt;    the (relative) directory in which initialize the app
+                         (defaults to "lib/redux")
+</code></pre>
+<h3 id="new">new</h3>
+<p>The <code>new</code> command creates a new Redux component. You can create a new Redux component by running the following command:</p>
+<pre class="language-dart"><code>Usage: redux_adder new [arguments]
+-h, --help                              Print this usage information.
+-d, --directory=&lt;path/to/directory&gt;     The (relative) directory from which to take component skeletons
+-f, --file=&lt;path/to/file.json&gt;          The (relative) file from which to take component skeleton
+-o, --output=&lt;path/to/output/folder&gt;    The (relative) directory in which save the new component
+</code></pre>
+<h3 id="delete">delete</h3>
+<p>The <code>delete</code> command deletes an existing Redux component. You can delete an existing Redux component by running the following command:</p>
+<pre class="language-dart"><code>Usage: redux_adder delete [arguments]
+-h, --help                                                   Print this usage information.
+-d, --directory=&lt;path/to/component/directory&gt; (mandatory)    The (relative) directory of the component to delete
+-y, --[no-]yes                                               Flag to determine if delete directly or not
+</code></pre>
+<h2 id="conclusion">Conclusion</h2>
+<p>Redux Adder is a useful tool for creating and managing Redux components in your Flutter project. With its simple and easy-to-use commands, you can quickly generate new Redux components and keep your project organized. If you have any issues or questions, please feel free to reach out to the Redux Adder community.</p>
 </section>
 
 
@@ -81,6 +158,13 @@ in <code>lib/</code>, and example unit test in <code>test/</code>.</p>
 <dd>
 </dd>
 
+          <dt id="command_delete">
+  <span class="name"><a href="commands_command_delete/commands_command_delete-library.html">command_delete</a></span> 
+
+</dt>
+<dd>
+</dd>
+
           <dt id="command_init">
   <span class="name"><a href="commands_command_init/commands_command_init-library.html">command_init</a></span> 
 
@@ -95,8 +179,22 @@ in <code>lib/</code>, and example unit test in <code>test/</code>.</p>
 <dd>
 </dd>
 
+          <dt id="command_refresh">
+  <span class="name"><a href="commands_command_refresh/commands_command_refresh-library.html">command_refresh</a></span> 
+
+</dt>
+<dd>
+</dd>
+
           <dt id="component">
   <span class="name"><a href="models_component/models_component-library.html">component</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="components_helper">
+  <span class="name"><a href="utils_components_helper/utils_components_helper-library.html">components_helper</a></span> 
 
 </dt>
 <dd>
@@ -144,13 +242,6 @@ in <code>lib/</code>, and example unit test in <code>test/</code>.</p>
 <dd>
 </dd>
 
-          <dt id="parameters_helper">
-  <span class="name"><a href="utils_parameters_helper/utils_parameters_helper-library.html">parameters_helper</a></span> 
-
-</dt>
-<dd>
-</dd>
-
           <dt id="reducer_page_builder">
   <span class="name"><a href="pages_reducer_page_builder/pages_reducer_page_builder-library.html">reducer_page_builder</a></span> 
 
@@ -160,6 +251,13 @@ in <code>lib/</code>, and example unit test in <code>test/</code>.</p>
 
           <dt id="redux_adder">
   <span class="name"><a href="redux_adder/redux_adder-library.html">redux_adder</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="state_page">
+  <span class="name"><a href="pages_state_page/pages_state_page-library.html">state_page</a></span> 
 
 </dt>
 <dd>
@@ -209,18 +307,21 @@ in <code>lib/</code>, and example unit test in <code>test/</code>.</p>
       <li><a href="models_action/models_action-library.html">action</a></li>
       <li><a href="pages_action_page_builder/pages_action_page_builder-library.html">action_page_builder</a></li>
       <li><a href="pages_base_page/pages_base_page-library.html">base_page</a></li>
+      <li><a href="commands_command_delete/commands_command_delete-library.html">command_delete</a></li>
       <li><a href="commands_command_init/commands_command_init-library.html">command_init</a></li>
       <li><a href="commands_command_new/commands_command_new-library.html">command_new</a></li>
+      <li><a href="commands_command_refresh/commands_command_refresh-library.html">command_refresh</a></li>
       <li><a href="models_component/models_component-library.html">component</a></li>
+      <li><a href="utils_components_helper/utils_components_helper-library.html">components_helper</a></li>
       <li><a href="utils_constants/utils_constants-library.html">constants</a></li>
       <li><a href="pages_default_pages/pages_default_pages-library.html">default_pages</a></li>
       <li><a href="utils_file_handler/utils_file_handler-library.html">file_handler</a></li>
       <li><a href="utils_functions/utils_functions-library.html">functions</a></li>
       <li><a href="pages_middleware_page_builder/pages_middleware_page_builder-library.html">middleware_page_builder</a></li>
       <li><a href="models_parameter/models_parameter-library.html">parameter</a></li>
-      <li><a href="utils_parameters_helper/utils_parameters_helper-library.html">parameters_helper</a></li>
       <li><a href="pages_reducer_page_builder/pages_reducer_page_builder-library.html">reducer_page_builder</a></li>
       <li><a href="redux_adder/redux_adder-library.html">redux_adder</a></li>
+      <li><a href="pages_state_page/pages_state_page-library.html">state_page</a></li>
       <li><a href="pages_state_page_builder/pages_state_page_builder-library.html">state_page_builder</a></li>
       <li><a href="pages_viewmodel_page_builder/pages_viewmodel_page_builder-library.html">viewmodel_page_builder</a></li>
       <li><a href="pages_widget_page_builder/pages_widget_page_builder-library.html">widget_page_builder</a></li>

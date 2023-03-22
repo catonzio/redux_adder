@@ -92,14 +92,14 @@
   res += [
     for (var p in parameters)
       indent(&quot;create${p.type.replaceAll(&#39;State&#39;, &#39;&#39;)}Middleware(),&quot;, tabs: 3)
-  ].join(&quot;\n&quot;);
+  ].join(&quot;&quot;);
   res += indent(&quot;]&quot;, tabs: 2);
   res += indent(&quot;);&quot;, tabs: 1);
   res += indent(&quot;}&quot;);
   String path = [Constants.basePath, &quot;store.dart&quot;].join(&quot;&#47;&quot;);
   printHeader(&quot;Store&quot;);
   print(&quot;Writing store in ${absolute(path)}&quot;);
-  writeFile(path: path, content: res);
+  writeFileSync(path: path, content: res);
 }</code></pre>
 </section>
 

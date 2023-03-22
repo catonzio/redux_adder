@@ -77,9 +77,7 @@
       parameters: [Parameter(type: &quot;int&quot;, name: &quot;counter&quot;, isComp: false)],
       actions: []);
   home.writeReduxComponent();
-  await writeFile(
-      path: [Constants.basePath, &quot;..&quot;, &quot;models&quot;, &quot;home.json&quot;].join(&quot;&#47;&quot;),
-      content: JsonEncoder.withIndent(&quot;\t&quot;).convert(home.toJson()));
+  &#47;&#47; home.writeModelJson();
   String code = &quot;&quot;&quot;
     return SafeArea(
         child: Scaffold(
@@ -93,7 +91,7 @@
         )),
         floatingActionButton: FloatingActionButton(
             onPressed: () =&gt;
-                viewModel.updateCounter!(viewModel.state.counter + 1),
+                viewModel.updateHomeCounterAction!(viewModel.state.counter + 1),
             child: const Icon(Icons.add)),
         ),
     );
@@ -104,7 +102,7 @@
   List&lt;String&gt; content = readFileSync(path: path).split(&quot;\n&quot;);
   String result = content.sublist(0, 28).join(&quot;\n&quot;);
   result += &quot;\n$code&quot;;
-  writeFile(path: path, content: result);
+  writeFileSync(path: path, content: result);
 }</code></pre>
 </section>
 

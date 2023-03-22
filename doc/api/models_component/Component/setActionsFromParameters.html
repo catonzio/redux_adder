@@ -74,12 +74,16 @@
   <pre class="language-dart"><code class="language-dart">void setActionsFromParameters() {
   List&lt;Action&gt; actions = [
     for (var p in parameters)
-      Action(
-          name: &quot;Update${capitalize(name)}${capitalize(p.name)}Action&quot;,
-          parameters: [p],
-          isAsync: false)
+      if (!p.isComp)
+        Action(
+            name: &quot;Update${capitalize(name)}${capitalize(p.name)}Action&quot;,
+            parameters: [p],
+            isAsync: false)
   ];
-  this.actions.addAll(actions);
+  this.actions.addAll([
+    for (var a in actions)
+      if (!this.actions.contains(a)) a
+  ]);
 }</code></pre>
 </section>
 
@@ -126,9 +130,12 @@
 
         <li class="section-title"><a href="../../models_component/Component-class.html#instance-methods">Methods</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+          <li><a href="../../models_component/Component/printDifferences.html">printDifferences</a></li>
+          <li><a href="../../models_component/Component/refreshReduxComponent.html">refreshReduxComponent</a></li>
           <li><a href="../../models_component/Component/setActionsFromParameters.html">setActionsFromParameters</a></li>
           <li><a href="../../models_component/Component/toJson.html">toJson</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+          <li><a href="../../models_component/Component/writeModelJson.html">writeModelJson</a></li>
           <li><a href="../../models_component/Component/writeReduxComponent.html">writeReduxComponent</a></li>
 
         <li class="section-title inherited"><a href="../../models_component/Component-class.html#operators">Operators</a></li>

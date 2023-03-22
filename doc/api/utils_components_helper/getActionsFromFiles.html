@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the getActionsFromFiles function from the components_helper library, for the Dart programming language.">
+  <title>getActionsFromFiles function - components_helper library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">redux_adder</a></li>
+    <li><a href="../utils_components_helper/utils_components_helper-library.html">components_helper</a></li>
+    <li class="self-crumb">getActionsFromFiles function</li>
+  </ol>
+  <div class="self-name">getActionsFromFiles</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-function">getActionsFromFiles</span> function 
+ 
+</h1></div>
+
+    <section class="multi-line-signature">
+        
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../models_action/Action-class.html">Action</a></span>&gt;</span></span>
+<span class="name ">getActionsFromFiles</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getActionsFromFiles-param-actionsPath"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">actionsPath</span>, </span></li>
+<li><span class="parameter" id="getActionsFromFiles-param-reducerPath"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">reducerPath</span></span></li>
+</ol>)
+
+        
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Scans through the actions file and reducer file to find all definitions of
+actions and all the relative implementations</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">List&lt;Action&gt; getActionsFromFiles(String actionsPath, String reducerPath) {
+  List&lt;Action&gt; result = [];
+  &#47;&#47; find all implementations.
+  &#47;&#47; key: action name, value: implementation
+  Map&lt;String, String&gt; implementations =
+      extractActionsImplementations(reducerPath);
+  &#47;&#47; get file content
+  String actionsContent = readFileSync(path: actionsPath);
+  &#47;&#47; get the pieces containing the regex
+  var matches = getRegexContents(Constants.actionRegex, actionsContent);
+  &#47;&#47; if the number of implementations and of actions definitions is different
+  if (implementations.length != matches.length) {
+    &#47;&#47; something wrong
+    throw Exception(
+        &quot;Error! Different number of actions between Actions and Reducer files!&quot;);
+  }
+  &#47;&#47; for each action found
+  for (int i = 0; i &lt; matches.length; i++) {
+    String actionContent = matches[i];
+    &#47;&#47; first action content is like &quot;class ActionName {&quot;
+    String actionName = actionContent
+        .split(&quot;\n&quot;)
+        .first
+        .replaceAll(&quot;class&quot;, &quot;&quot;)
+        .replaceAll(&quot;{&quot;, &quot;&quot;)
+        .trim();
+    &#47;&#47; extract parameters
+    var parameters = extractParametersFromString(actionContent);
+
+    &#47;&#47; add new action to results
+    result.add(Action(
+        name: actionName,
+        parameters: parameters,
+        isAsync: false,
+        implementation: implementations[actionName]!));
+  }
+  return result;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">redux_adder</a></li>
+  <li><a href="../utils_components_helper/utils_components_helper-library.html">components_helper</a></li>
+  <li class="self-crumb">getActionsFromFiles function</li>
+</ol>
+
+
+    <h5>components_helper library</h5>
+    <ol>
+
+
+
+
+
+      <li class="section-title"><a href="../utils_components_helper/utils_components_helper-library.html#functions">Functions</a></li>
+        <li><a href="../utils_components_helper/extractActionsImplementations.html">extractActionsImplementations</a></li>
+        <li><a href="../utils_components_helper/extractParametersFromString.html">extractParametersFromString</a></li>
+        <li><a href="../utils_components_helper/getActionsFromFiles.html">getActionsFromFiles</a></li>
+        <li><a href="../utils_components_helper/getComponentFromFolder.html">getComponentFromFolder</a></li>
+        <li><a href="../utils_components_helper/getComponentsReducerDeclaration.html">getComponentsReducerDeclaration</a></li>
+        <li><a href="../utils_components_helper/getParametersFromStateFile.html">getParametersFromStateFile</a></li>
+        <li><a href="../utils_components_helper/getRegexContents.html">getRegexContents</a></li>
+        <li><a href="../utils_components_helper/main.html">main</a></li>
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-left-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    redux_adder
+      1.0.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

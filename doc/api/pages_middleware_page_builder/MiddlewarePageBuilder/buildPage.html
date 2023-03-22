@@ -84,6 +84,7 @@ import &#39;..&#47;app&#47;app_state.dart&#39;;
 
 Middleware&lt;AppState&gt; $middlewareName() {
 	return (Store&lt;AppState&gt; store, dynamic action, NextDispatcher next) async {
+  ${getActionsDeclarations()}
 		next(action);
 	};
 }
@@ -127,6 +128,7 @@ Middleware&lt;AppState&gt; $middlewareName() {
 
         <li class="section-title"><a href="../../pages_middleware_page_builder/MiddlewarePageBuilder-class.html#instance-methods">Methods</a></li>
           <li><a href="../../pages_middleware_page_builder/MiddlewarePageBuilder/buildPage.html">buildPage</a></li>
+          <li><a href="../../pages_middleware_page_builder/MiddlewarePageBuilder/getActionsDeclarations.html">getActionsDeclarations</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 

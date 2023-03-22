@@ -109,7 +109,7 @@ class MyApp extends StatelessWidget {
   String path = [Constants.basePath, &quot;..&quot;, &quot;main.dart&quot;].join(&quot;&#47;&quot;);
   printHeader(&quot;Main&quot;);
   print(&quot;Writing main page in ${absolute(path)}&quot;);
-  writeFile(path: path, content: content);
+  writeFileSync(path: path, content: content);
 }</code></pre>
 </section>
 

@@ -9,6 +9,8 @@ import 'package:redux_adder/utils/file_handler.dart';
 
 import '../models/component.dart';
 
+/// This class represents the delete command.
+/// It has one option, "--directory" or "-d", and one flag, "--yes" or "-y"
 class CommandDelete extends Command {
   @override
   final name = "delete";
@@ -34,46 +36,36 @@ class CommandDelete extends Command {
   }
 }
 
+/// <p>This function takes as input the path to the directory of the component to delete.<br>
+/// The "delete" parameter is used when the there is the flag "-y"</p>
 void deleteComponent(String directory, {required delete}) {
   List<String> splittedDirectory =
       directory.contains("/") ? directory.split("/") : directory.split("\\");
+  // user can't delete app or store components
   if (splittedDirectory.last.toLowerCase() == "app" ||
       splittedDirectory.last.toLowerCase() == "store") {
     print("Cannot delete ${splittedDirectory.last} component!");
+  } else {
+    if (!delete) {
+      print(
+          "This will permanently delete the component located at $directory.");
+      stdout.write("Do you whish to continue? [(y)/n] ");
+      String? inp = stdin.readLineSync();
+      delete = inp == null
+          ? false
+          : (inp.toLowerCase().contains("n") ? false : true);
+    }
+    if (delete) {
+      // set the base path as the path to the parent of the folder of the component
+      Constants.updateBasePath(
+          splittedDirectory.sublist(0, splittedDirectory.length - 2).join("/"));
+      // delete directory
+      Directory(directory).deleteSync(recursive: true);
+      print("Deleted component at $directory");
+      // update app and store components
+      List<Parameter> parameters = getFolderComponents();
+      makeAppComponent(parameters);
+      makeStorePage(parameters);
+    }
   }
-  if (!delete) {
-    print("This will permanently delete the component located at $directory.");
-    stdout.write("Do you whish to continue? [(y)/n] ");
-    String? inp = stdin.readLineSync();
-    delete =
-        inp == null ? false : (inp.toLowerCase().contains("n") ? false : true);
-  }
-  if (delete) {
-    Constants.updateBasePath(
-        splittedDirectory.sublist(0, splittedDirectory.length - 2).join("/"));
-    Directory(directory).deleteSync(recursive: true);
-    print("Deleted component at $directory");
-    List<Parameter> parameters = getFolderComponents();
-    makeAppComponent(parameters);
-    makeStorePage(parameters);
-  }
-}
-
-void main(List<String> args) {
-  Component(name: "name_of_the_component", parameters: [
-    Parameter(
-        type: "int|bool|DateTime|OtherComponent|...", name: "nameOfParameter"),
-    Parameter(type: "List<int>", name: "myList"),
-    Parameter(type: "String", name: "stringParam"),
-    Parameter(type: "OtherState", name: "other", isComp: true)
-  ], actions: [
-    Action(
-        name: "NameOfTheAction",
-        parameters: [
-          Parameter(
-              type: "int|bool|DateTime|OtherComponent|...",
-              name: "nameOfParameter")
-        ],
-        isAsync: false)
-  ]).writeModelJson();
 }

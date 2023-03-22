@@ -71,12 +71,17 @@
   argParser.addOption(&quot;directory&quot;,
       abbr: &quot;d&quot;,
       valueHelp: &quot;path&#47;to&#47;directory&quot;,
+      &#47;&#47; defaultsTo: Constants.jsonModelsPath,
       help:
           &quot;The (relative) directory from which to take component skeletons&quot;);
   argParser.addOption(&quot;file&quot;,
       abbr: &quot;f&quot;,
       valueHelp: &quot;path&#47;to&#47;file.json&quot;,
       help: &quot;The (relative) file from which to take component skeleton&quot;);
+  argParser.addOption(&quot;output&quot;,
+      abbr: &quot;o&quot;,
+      valueHelp: &quot;path&#47;to&#47;output&#47;folder&quot;,
+      help: &quot;The (relative) directory in which save the new component&quot;);
 }</code></pre>
 </section>
 

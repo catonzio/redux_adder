@@ -4,6 +4,9 @@ import '../pages/default_pages.dart';
 import '../utils/constants.dart';
 import '../utils/file_handler.dart';
 
+/// Command to handle the initialization of the project.<br>
+/// It takes one parameter, "--directory" or "-d", that represent the
+/// destination folder
 class CommandInit extends Command {
   @override
   final name = "init";
@@ -26,6 +29,8 @@ class CommandInit extends Command {
   }
 }
 
+/// function that initializes the project.<br>
+/// It creates an homepage with a counter, sets the main and makes some utility files
 void initProject() async {
   await makeHomepageComponent();
   List<Parameter> parameters = getFolderComponents();

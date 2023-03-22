@@ -84,8 +84,7 @@
   <pre class="language-dart"><code class="language-dart">@override
 void run() {
   String dir = argResults![&#39;directory&#39;];
-  Constants.basePath =
-      dir + (dir.toLowerCase().contains(&quot;redux&quot;) ? &quot;&quot; : &quot;&#47;redux&quot;);
+  Constants.updateBasePath(dir);
   initProject();
 }</code></pre>
 </section>

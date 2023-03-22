@@ -57,6 +57,10 @@
 </h1></div>
 
     
+<section class="desc markdown">
+  <p>Class representing a parameter.</p>
+<p>It has a type, a name and whether it refers to another component.</p>
+</section>
 
 
 
@@ -85,14 +89,14 @@
       <h2>Properties</h2>
 
       <dl class="properties">
-        <dt id="hashCode" class="property inherited">
-  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
+        <dt id="hashCode" class="property">
+  <span class="name"><a href="../models_parameter/Parameter/hashCode.html">hashCode</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
 
 </dt>
-<dd class="inherited">
+<dd>
   The hash code for this object.
-  <div class="features"><span class="feature">read-only</span><span class="feature">inherited</span></div>
+  <div class="features"><span class="feature">read-only</span><span class="feature">override</span></div>
 
 </dd>
 
@@ -102,7 +106,7 @@
 
 </dt>
 <dd>
-  
+  Whether the parameter refers to another component
   <div class="features"><span class="feature">final</span></div>
 
 </dd>
@@ -113,7 +117,7 @@
 
 </dt>
 <dd>
-  
+  The name of the parameter
   <div class="features"><span class="feature">final</span></div>
 
 </dd>
@@ -135,7 +139,7 @@
 
 </dt>
 <dd>
-  
+  The type of the parameter
   <div class="features"><span class="feature">final</span></div>
 
 </dd>
@@ -157,7 +161,7 @@
 
 </dt>
 <dd>
-  
+  The declaration of the parameter in the copyWith method, e.g.
   
 
 </dd>
@@ -170,7 +174,7 @@
 
 </dt>
 <dd>
-  
+  The body of the parameter in the copyWith method, e.g.
   
 
 </dd>
@@ -209,7 +213,7 @@
 
 </dt>
 <dd>
-  
+  Generates the parameter's equality check, e.g.
   
 
 </dd>
@@ -222,7 +226,8 @@
 
 </dt>
 <dd>
-  
+  Generates the conversion of the json value to the parameter, depending on the fact
+that this parameter refers to another component. For example,
   
 
 </dd>
@@ -235,7 +240,7 @@
 
 </dt>
 <dd>
-  
+  Generates the parameter's hash code computation, e.g.
   
 
 </dd>
@@ -248,7 +253,7 @@
 
 </dt>
 <dd>
-  
+  Generates a default initialization of this parameter, depending on its type
   
 
 </dd>
@@ -261,20 +266,8 @@
 
 </dt>
 <dd>
-  
-  
-
-</dd>
-
-        <dt id="getParamReducerDeclaration" class="callable">
-  <span class="name"><a href="../models_parameter/Parameter/getParamReducerDeclaration.html">getParamReducerDeclaration</a></span><span class="signature">(<wbr><span class="parameter" id="getParamReducerDeclaration-param-stateName"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">stateName</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
-  </span>
-  
-
-</dt>
-<dd>
-  
+  Generates the conversion of the parameter to the json value, depending on the fact
+that this parameter refers to another component. For example,
   
 
 </dd>
@@ -322,20 +315,20 @@
   </section>
     
   <section
-      class="summary offset-anchor inherited"
+      class="summary offset-anchor"
       id="operators">
     <h2>Operators</h2>
     <dl class="callables">
-        <dt id="operator ==" class="callable inherited">
-  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+        <dt id="operator ==" class="callable">
+  <span class="name"><a href="../models_parameter/Parameter/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
   </span>
   
 
 </dt>
-<dd class="inherited">
+<dd>
   The equality operator.
-  <div class="features"><span class="feature">inherited</span></div>
+  <div class="features"><span class="feature">override</span></div>
 
 </dd>
 
@@ -389,7 +382,7 @@
         <li class="section-title">
           <a href="../models_parameter/Parameter-class.html#instance-properties">Properties</a>
         </li>
-          <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+          <li><a href="../models_parameter/Parameter/hashCode.html">hashCode</a></li>
           <li><a href="../models_parameter/Parameter/isComp.html">isComp</a></li>
           <li><a href="../models_parameter/Parameter/name.html">name</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
@@ -405,13 +398,12 @@
           <li><a href="../models_parameter/Parameter/getParameterHashcode.html">getParameterHashcode</a></li>
           <li><a href="../models_parameter/Parameter/getParameterInitialization.html">getParameterInitialization</a></li>
           <li><a href="../models_parameter/Parameter/getParameterToJson.html">getParameterToJson</a></li>
-          <li><a href="../models_parameter/Parameter/getParamReducerDeclaration.html">getParamReducerDeclaration</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li><a href="../models_parameter/Parameter/toJson.html">toJson</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
-        <li class="section-title inherited"><a href="../models_parameter/Parameter-class.html#operators">Operators</a></li>
-          <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
+        <li class="section-title"><a href="../models_parameter/Parameter-class.html#operators">Operators</a></li>
+          <li><a href="../models_parameter/Parameter/operator_equals.html">operator ==</a></li>
 
 
 

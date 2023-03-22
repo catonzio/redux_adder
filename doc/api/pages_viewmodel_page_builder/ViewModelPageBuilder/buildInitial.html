@@ -75,7 +75,8 @@
   String res = indent(&quot;factory $vmName.initial() {&quot;, tabs: 1);
   res += indent(&quot;return $vmName(&quot;, tabs: 2);
   res += [
-    for (var p in parameters) indent(p.getParameterInitialization(), tabs: 3)
+    for (var p in parameters)
+      if (!isFunction(p.type)) indent(p.getParameterInitialization(), tabs: 3)
   ].join();
   res += indent(&quot;);&quot;, tabs: 2);
   res += indent(&quot;}\n&quot;, tabs: 1);

@@ -107,7 +107,7 @@
   String path = [Constants.configPath, &quot;route_generator.dart&quot;].join(&quot;&#47;&quot;);
   printHeader(&quot;Route generator&quot;);
   print(&quot;Writing route generator in ${absolute(path)}&quot;);
-  writeFile(path: path, content: res);
+  writeFileSync(path: path, content: res);
 }</code></pre>
 </section>
 

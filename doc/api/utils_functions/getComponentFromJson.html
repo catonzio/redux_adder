@@ -60,19 +60,22 @@
         
 
 <span class="returntype"><a href="../models_component/Component-class.html">Component</a></span>
-<span class="name ">getComponentFromJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getComponentFromJson-param-inputFile"><span class="type-annotation">dynamic</span> <span class="parameter-name">inputFile</span></span></li>
+<span class="name ">getComponentFromJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getComponentFromJson-param-inputFile"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">inputFile</span></span></li>
 </ol>)
 
         
 
     </section>
     
+<section class="desc markdown">
+  <p>Parses a json file, located at <code>inputFile</code>, and creates a component from it</p>
+</section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Component getComponentFromJson(inputFile) {
+  <pre class="language-dart"><code class="language-dart">Component getComponentFromJson(String inputFile) {
   String content = readFileSync(path: inputFile);
   if (content != &quot;invalid&quot;) {
     return Component.fromJson(jsonDecode(content));
@@ -115,8 +118,10 @@
         <li><a href="../utils_functions/getParamsFromUser.html">getParamsFromUser</a></li>
         <li><a href="../utils_functions/getSnakeActionName.html">getSnakeActionName</a></li>
         <li><a href="../utils_functions/indent.html">indent</a></li>
+        <li><a href="../utils_functions/isFunction.html">isFunction</a></li>
         <li><a href="../utils_functions/main.html">main</a></li>
         <li><a href="../utils_functions/printHeader.html">printHeader</a></li>
+        <li><a href="../utils_functions/removeAllWhitespaces.html">removeAllWhitespaces</a></li>
         <li><a href="../utils_functions/snakeToCamel.html">snakeToCamel</a></li>
         <li><a href="../utils_functions/uncapitalize.html">uncapitalize</a></li>
 

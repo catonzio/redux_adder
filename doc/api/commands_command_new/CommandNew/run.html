@@ -85,7 +85,10 @@
 void run() {
   String? directory = argResults![&#39;directory&#39;];
   String? file = argResults![&#39;file&#39;];
-  print(&quot;Directory: $directory\nFile: $file&quot;);
+  String? output = argResults![&#39;output&#39;];
+  if (output != null) {
+    Constants.updateBasePath(output);
+  }
   newReduxComponent(inputFile: file, inputDirectory: directory);
 }</code></pre>
 </section>

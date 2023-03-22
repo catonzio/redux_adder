@@ -59,7 +59,7 @@
     <section class="multi-line-signature">
         
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../models_parameter/Parameter-class.html">Parameter</a></span>&gt;</span></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../models_parameter/Parameter-class.html">Parameter</a></span>&gt;</span></span>
 <span class="name ">getFolderComponents</span>(<wbr>)
 
         
@@ -71,9 +71,9 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;List&lt;Parameter&gt;&gt; getFolderComponents() async {
+  <pre class="language-dart"><code class="language-dart">List&lt;Parameter&gt; getFolderComponents() {
   final dir = Directory(Constants.basePath);
-  final List&lt;FileSystemEntity&gt; entities = await dir.list().toList();
+  final List&lt;FileSystemEntity&gt; entities = dir.listSync().toList();
   final List&lt;String&gt; names = [
     for (var e in entities)
       if (FileSystemEntity.isDirectorySync(e.path) &amp;&amp; !e.path.contains(&quot;app&quot;))
@@ -117,6 +117,7 @@
         <li><a href="../utils_file_handler/readFile.html">readFile</a></li>
         <li><a href="../utils_file_handler/readFileSync.html">readFileSync</a></li>
         <li><a href="../utils_file_handler/writeFile.html">writeFile</a></li>
+        <li><a href="../utils_file_handler/writeFileSync.html">writeFileSync</a></li>
         <li><a href="../utils_file_handler/writePages.html">writePages</a></li>
 
 

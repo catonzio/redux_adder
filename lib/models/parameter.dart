@@ -1,8 +1,16 @@
 import '../utils/functions.dart';
 
+/// Class representing a parameter.
+///
+/// It has a type, a name and whether it refers to another component.
 class Parameter {
+  /// The type of the parameter
   final String type;
+
+  /// The name of the parameter
   final String name;
+
+  /// Whether the parameter refers to another component
   final bool isComp;
 
   Parameter({required this.type, required this.name, this.isComp = false});
@@ -25,6 +33,7 @@ class Parameter {
     return "${type.endsWith('?') ? '' : 'required '}this.$name";
   }
 
+  /// Generates a default initialization of this parameter, depending on its type
   String getParameterInitialization() {
     String initialization = "";
     if (isComp) {
@@ -53,14 +62,27 @@ class Parameter {
     return type.endsWith("?") ? "" : "$name: $initialization,";
   }
 
+  /// The declaration of the parameter in the copyWith method, e.g.
+  /// ```dart
+  /// int? param,
+  /// ```
   String getCopyWithArgument() {
     return "$type? $name,";
   }
 
+  /// The body of the parameter in the copyWith method, e.g.
+  /// ```dart
+  /// param: param ?? this.param,
+  /// ```
   String getCopyWithBody() {
     return "$name: $name ?? this.$name,";
   }
 
+  /// Generates the conversion of the json value to the parameter, depending on the fact
+  /// that this parameter refers to another component. For example,
+  /// ```dart
+  /// param: jsonDecode(json['param']),
+  /// ```
   String getParameterFromJson() {
     if (type.toLowerCase().contains("function")) {
       return "";
@@ -73,6 +95,11 @@ class Parameter {
     }
   }
 
+  /// Generates the conversion of the parameter to the json value, depending on the fact
+  /// that this parameter refers to another component. For example,
+  /// ```dart
+  /// 'param': jsonEncode(param),
+  /// ```
   String getParameterToJson() {
     if (isFunction(type)) {
       return "";
@@ -85,29 +112,22 @@ class Parameter {
     }
   }
 
+  /// Generates the parameter's equality check, e.g.
+  /// ```dart
+  /// param == other.param
+  /// ```
   String getParameterEquals() {
     return !(type.toLowerCase().contains("function"))
         ? "$name == other.$name"
         : "";
   }
 
+  /// Generates the parameter's hash code computation, e.g.
+  /// ```dart
+  /// param.hashCode
+  /// ```
   String getParameterHashcode() {
     return !(type.toLowerCase().contains("function")) ? "$name.hashCode" : "";
-  }
-
-  String getParamReducerDeclaration(String stateName) {
-    if (isComp) {
-      String res = "(state, action) =>";
-      res += indent(
-          "${uncapitalize(name.replaceAll('State', ''))}Reducer(state, action),",
-          tabs: 2);
-      return res;
-    } else {
-      String actionName =
-          getActionFromName(name, stateName.replaceAll("State", ""));
-      String snakeActionName = getSnakeActionName(actionName);
-      return "TypedReducer<$stateName, $actionName>($snakeActionName),";
-    }
   }
 
   @override
